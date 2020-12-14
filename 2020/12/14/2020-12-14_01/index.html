@@ -211,14 +211,19 @@
 
 <p>나머지는 모두 default로 한 후 repo를 생성합니다.</p>
 <h3 id="생성된-git-repo를-로컬로-clone"><a href="#생성된-git-repo를-로컬로-clone" class="headerlink" title="생성된 git repo를 로컬로 clone"></a>생성된 git repo를 로컬로 clone</h3><p>생성된 git repo를 로컬로 가져옵니다. 원하는 파일 위치에 가져오면 됩니다.</p>
+<p><img src="/img/2020-12-14_01/img02.png" alt="image"><br></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/username/username.github.io</span><br></pre></td></tr></table></figure>
 
 <h4 id="ex-1"><a href="#ex-1" class="headerlink" title="ex"></a>ex</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/algo2000/algo2000.github.io</span><br></pre></td></tr></table></figure>
 
-<h3 id="Hello-World를-page에-띄우기"><a href="#Hello-World를-page에-띄우기" class="headerlink" title="Hello World를 page에 띄우기"></a>Hello World를 page에 띄우기</h3><p>로컬에 생성된 repo 폴더안에 들어가 index.html을 작성합니다.</p>
+<h3 id="Hello-World를-page에-띄우기-index-html-생성"><a href="#Hello-World를-page에-띄우기-index-html-생성" class="headerlink" title="Hello World를 page에 띄우기 - index.html 생성"></a>Hello World를 page에 띄우기 - index.html 생성</h3><p>로컬에 생성된 repo 폴더안에 들어가 index.html을 작성합니다.</p>
+<p><img src="/img/2020-12-14_01/img03.png" alt="image"><br></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> username.github.io</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello World&quot;</span> &gt; index.html</span><br></pre></td></tr></table></figure>
 
 <h4 id="ex-2"><a href="#ex-2" class="headerlink" title="ex"></a>ex</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> algo2000.github.io</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello World&quot;</span> &gt; index.html</span><br></pre></td></tr></table></figure>
+
+<h3 id="Hello-World를-page에-띄우기-git-commit-push"><a href="#Hello-World를-page에-띄우기-git-commit-push" class="headerlink" title="Hello World를 page에 띄우기 - git commit, push"></a>Hello World를 page에 띄우기 - git commit, push</h3><p>생성된 index를 커밋하고 github에 push 합니다. <br><br>작성자 본인은 기본 branch가 master 입니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add --all</span><br><span class="line">$ git commit -m <span class="string">&quot;Init&quot;</span></span><br><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure>
         </div>
 
         
