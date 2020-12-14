@@ -206,24 +206,29 @@
 <h3 id="git-repository-생성"><a href="#git-repository-생성" class="headerlink" title="git repository 생성"></a>git repository 생성</h3><p><img src="/img/2020-12-14_01/img01.png" alt="image"><br></p>
 <p>Github에서 repository를 생성합니다. <br><br>repo 생성 시 이름 규칙에 주의 합니다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[username].github.io</span><br></pre></td></tr></table></figure>
-
-<h4 id="ex"><a href="#ex" class="headerlink" title="ex"></a>ex</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">algo2000.github.io</span><br></pre></td></tr></table></figure>
+<p><strong>ex</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">algo2000.github.io</span><br></pre></td></tr></table></figure>
 
 <p>나머지는 모두 default로 한 후 repo를 생성합니다.</p>
 <h3 id="생성된-git-repo를-로컬로-clone"><a href="#생성된-git-repo를-로컬로-clone" class="headerlink" title="생성된 git repo를 로컬로 clone"></a>생성된 git repo를 로컬로 clone</h3><p>생성된 git repo를 로컬로 가져옵니다. 원하는 파일 위치에 가져오면 됩니다.</p>
 <p><img src="/img/2020-12-14_01/img02.png" alt="image"><br></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/username/username.github.io</span><br></pre></td></tr></table></figure>
-
-<h4 id="ex-1"><a href="#ex-1" class="headerlink" title="ex"></a>ex</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/algo2000/algo2000.github.io</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/[username]/[username].github.io</span><br></pre></td></tr></table></figure>
+<p><strong>ex</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/algo2000/algo2000.github.io</span><br></pre></td></tr></table></figure>
 
 <h3 id="Hello-World를-page에-띄우기-index-html-생성"><a href="#Hello-World를-page에-띄우기-index-html-생성" class="headerlink" title="Hello World를 page에 띄우기 - index.html 생성"></a>Hello World를 page에 띄우기 - index.html 생성</h3><p>로컬에 생성된 repo 폴더안에 들어가 index.html을 작성합니다.</p>
 <p><img src="/img/2020-12-14_01/img03.png" alt="image"><br></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> username.github.io</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello World&quot;</span> &gt; index.html</span><br></pre></td></tr></table></figure>
-
-<h4 id="ex-2"><a href="#ex-2" class="headerlink" title="ex"></a>ex</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> algo2000.github.io</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello World&quot;</span> &gt; index.html</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> [username].github.io</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello World&quot;</span> &gt; index.html</span><br></pre></td></tr></table></figure>
+<p><strong>ex</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> algo2000.github.io</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;Hello World&quot;</span> &gt; index.html</span><br></pre></td></tr></table></figure>
 
 <h3 id="Hello-World를-page에-띄우기-git-commit-push"><a href="#Hello-World를-page에-띄우기-git-commit-push" class="headerlink" title="Hello World를 page에 띄우기 - git commit, push"></a>Hello World를 page에 띄우기 - git commit, push</h3><p>생성된 index를 커밋하고 github에 push 합니다. <br><br>작성자 본인은 기본 branch가 master 입니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add --all</span><br><span class="line">$ git commit -m <span class="string">&quot;Init&quot;</span></span><br><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<h3 id="성공"><a href="#성공" class="headerlink" title="성공"></a>성공</h3><p>해당하는 url에 접속하여 Hello World가 보인다면 성공입니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;[username].github.io</span><br></pre></td></tr></table></figure>
+<p><strong>ex</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;algo2000.github.io</span><br></pre></td></tr></table></figure>
         </div>
 
         
