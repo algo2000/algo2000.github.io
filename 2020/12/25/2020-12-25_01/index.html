@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko,default">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Leo">
+
+
+    <meta name="subtitle" content="매일, Everyday, 毎日">
+
+
+
+
+<title>01) tyscript 객체, 타입 | Leo&#39;s Dev Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Leo&#39;s Dev Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Leo&#39;s Dev Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">01) tyscript 객체, 타입</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Leo</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12월 25, 2020&nbsp;&nbsp;19:22:36</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/">개발 일지</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/">typescript</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="변수-선언문"><a href="#변수-선언문" class="headerlink" title="변수 선언문"></a>변수 선언문</h1><h2 id="let과-const"><a href="#let과-const" class="headerlink" title="let과 const"></a>let과 const</h2><p>기존 자바 스크립트 es5에서는 var 이라는 것을 이용하여 변수를 선언했습니다.<br><br>하지만 현재 자바스트립트에서는 let과 const를 이용하여 변수를 선언합니다.</p>
+<ul>
+<li><p>let</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [이름] = [초기값]</span><br></pre></td></tr></table></figure>
+
+<p>  위와 같은 방식으로 사용을 할 수 있습니다. let은 수시로 바뀔 수 있는 값입니다.</p>
+</li>
+<li><p>const</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [이름] = [초기값]</span><br></pre></td></tr></table></figure>
+
+<p>  위와 같은 방식으로 사용을 할 수 있습니다. const는 초기값이 정해지면 절대 변하지 않습니다.</p>
+<blockquote>
+<p>const 이용시 반드시 초기값을 세팅해 줘야합니다.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="타입-주석"><a href="#타입-주석" class="headerlink" title="타입 주석"></a>타입 주석</h2><p>타입 스크립트는 기존의 js와는 다르게 변수 선언시 데이터 타입을 명시해 줄 수 있습니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [이름] : [타입] = 초기값</span><br><span class="line"><span class="keyword">const</span> [이름] : [타입] = 초기값</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name : <span class="built_in">string</span> = <span class="string">&quot;Leo&quot;</span></span><br><span class="line"><span class="keyword">let</span> isMan : <span class="built_in">boolean</span> = <span class="literal">true</span></span><br><span class="line"><span class="keyword">let</span> age : <span class="built_in">number</span> = <span class="number">21</span></span><br><span class="line"><span class="keyword">let</span> hobby : <span class="built_in">object</span> = &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>이처럼 타입을 명시해 준 경우 타입이 일치하지 않을 경우 에러가 발생합니다.</p>
+<h2 id="타입-추론"><a href="#타입-추론" class="headerlink" title="타입 추론"></a>타입 추론</h2><p>타입 스크립트는 타입을 명시해줄 수 있는 동시에 타입을 명시하지 않을 수 있습니다.<br><br>자바 스크립트와 같이 타입이 자동으로 결정됩니다.</p>
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name = <span class="string">&quot;Leo&quot;</span> <span class="comment">// string 타입</span></span><br><span class="line"><span class="keyword">let</span> isMale = <span class="literal">true</span> <span class="comment">// boolean 타입</span></span><br><span class="line"><span class="keyword">let</span> age = <span class="number">21</span> <span class="comment">// number 타입</span></span><br><span class="line"><span class="keyword">let</span> hobby = &#123;&#125; <span class="comment">// object 타입</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="any"><a href="#any" class="headerlink" title="any"></a>any</h2><p>어떤 값이든 저장할 수 있도록 타입을 명시할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name : <span class="built_in">any</span> = <span class="string">&quot;leo&quot;</span></span><br><span class="line">name = <span class="number">1</span></span><br><span class="line">name = <span class="literal">true</span></span><br><span class="line">name = &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="undefined"><a href="#undefined" class="headerlink" title="undefined"></a>undefined</h2><p>js에서는 값을 초기화 하지 않은 경우 undefined라는 값을 가집니다.<br><br>typescript의 undefined 타입은 undefined 값만을 가집니다.<br><br>그렇기 때문에 그 이외의 값이 들어오면 오류가 발생합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> ud : <span class="literal">undefined</span> = <span class="literal">undefined</span></span><br><span class="line">ud = <span class="string">&quot;Leo&quot;</span> <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="템플릿-문자열"><a href="#템플릿-문자열" class="headerlink" title="템플릿 문자열"></a>템플릿 문자열</h2><p>변수의 값을 문자열로 만들 수 있게 해주는 템플릿 문자열을 제공합니다.<br><br>`(역 따옴표)로 작성하고자하는 문자열을 감싸서 작성합니다.<br><br>${[변수이름]} 이렇게 구성하여 변수의 있는 값으르 사용할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name : <span class="built_in">string</span> = <span class="string">&quot;Leo&quot;</span></span><br><span class="line"><span class="keyword">let</span> age : <span class="built_in">number</span> = <span class="number">21</span></span><br><span class="line"><span class="keyword">let</span> info : <span class="built_in">string</span> = <span class="string">`<span class="subst">$&#123;name&#125;</span>의 나이는 <span class="subst">$&#123;age&#125;</span> 입니다.`</span></span><br><span class="line"><span class="built_in">console</span>.log(info) <span class="comment">// Leo의 나이는 21 입니다.</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="객체-인터페이스"><a href="#객체-인터페이스" class="headerlink" title="객체, 인터페이스"></a>객체, 인터페이스</h1><p>object의 하위 타입에는 interface, class가 있습니다.<br><br>object 타입은 number, boolean, string 타입을 가질수 없지만 나머지 다른 객체들을 모두 가질 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> leo : <span class="built_in">object</span> = &#123;<span class="attr">name</span> : <span class="string">&quot;leo&quot;</span>, <span class="attr">age</span> : <span class="number">21</span>&#125;</span><br><span class="line">leo  = &#123;<span class="attr">first_name</span> : <span class="string">&quot;jongyoon&quot;</span>, <span class="attr">last_name</span> : <span class="string">&quot;lee&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>이처럼 object는 객체에서 any의 역할을 수행합니다.</p>
+<h2 id="interface"><a href="#interface" class="headerlink" title="interface"></a>interface</h2><p>interface에서는 해당 객체의 변수를 타입 주석의 형식을 나열하여 사용합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person&#123;</span><br><span class="line">    name : <span class="built_in">string</span></span><br><span class="line">    age : <span class="built_in">number</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="interface의-조건"><a href="#interface의-조건" class="headerlink" title="interface의 조건"></a>interface의 조건</h3><p>인터페이스는 여러가지 조건이 존재합니다.</p>
+<ol>
+<li>없는 속성을 세팅한 경우</li>
+<li>나열한 속성을 제외하고 세팅한 경우</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person&#123;</span><br><span class="line">    name : <span class="built_in">string</span></span><br><span class="line">    age : <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> good: Person = &#123;<span class="attr">name</span>: <span class="string">&quot;leo&quot;</span>, <span class="attr">age</span>: <span class="number">21</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bad1: Person = &#123;<span class="attr">name</span>: <span class="string">&quot;leo&quot;</span>&#125;    <span class="comment">// age가 없어 오류</span></span><br><span class="line"><span class="keyword">let</span> bad2: Person = &#123;<span class="attr">age</span>: <span class="number">21</span>&#125;    <span class="comment">// name이 없어 오류</span></span><br><span class="line"><span class="keyword">let</span> bad3: Person = &#123;&#125;   <span class="comment">// 두가지 모두 없어 오류</span></span><br><span class="line"><span class="keyword">let</span> bad4: Person = &#123;<span class="attr">name</span>: <span class="string">&quot;leo&quot;</span>, <span class="attr">age</span>: <span class="number">21</span>, <span class="attr">isMale</span>: <span class="literal">true</span>&#125; <span class="comment">// 세팅하지 않은 isMale이 있어 오류</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="선택-속성-구문"><a href="#선택-속성-구문" class="headerlink" title="선택 속성 구문"></a>선택 속성 구문</h3><p>선택적으로 속성을 사용할 수 있게 해주는 선택 속성이 있습니다.<br><br>속성뒤에 물음표를 붙여 만듭니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person&#123;</span><br><span class="line">    name : <span class="built_in">string</span></span><br><span class="line">    age : <span class="built_in">number</span></span><br><span class="line">    isMale?: <span class="built_in">boolean</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> good1 : Person = &#123;<span class="attr">name</span>: <span class="string">&quot;leo&quot;</span>, <span class="attr">age</span>: <span class="number">21</span>, <span class="attr">isMale</span>: <span class="literal">true</span>&#125;</span><br><span class="line"><span class="keyword">let</span> good2 : Person = &#123;<span class="attr">name</span>: <span class="string">&quot;leo&quot;</span>, <span class="attr">age</span>: <span class="number">21</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="익명-인터페이스"><a href="#익명-인터페이스" class="headerlink" title="익명 인터페이스"></a>익명 인터페이스</h3><p>인터페이스의 이름을 사용하지 않고 익명의 인터페이스를 만들 수 있습니다.<br></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person : &#123;</span><br><span class="line">    name : <span class="built_in">string</span></span><br><span class="line">    age : <span class="built_in">number</span></span><br><span class="line">    isMale?: <span class="built_in">boolean</span></span><br><span class="line">&#125; = &#123;<span class="attr">name</span>: <span class="string">&quot;leo&quot;</span>, <span class="attr">age</span>: <span class="number">21</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>익명 인터페이스는 함수를 구현할 때 주로 사용됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printMe</span>(<span class="params">me: &#123;name: <span class="built_in">string</span>, age: <span class="built_in">number</span>, isMale?: <span class="built_in">boolean</span>&#125;</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(</span><br><span class="line">        me.isMale ?</span><br><span class="line">        <span class="string">`<span class="subst">$&#123;me.name&#125;</span> <span class="subst">$&#123;me.age&#125;</span> <span class="subst">$&#123;me.etc&#125;</span>`</span> :</span><br><span class="line">        <span class="string">`<span class="subst">$&#123;me.name&#125;</span> <span class="subst">$&#123;me.age&#125;</span>`</span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">printMe(person)</span><br></pre></td></tr></table></figure>
+
+<h1 id="객체-클래스"><a href="#객체-클래스" class="headerlink" title="객체, 클래스"></a>객체, 클래스</h1><p>일반적인 언어에서 지원하는 객체지향 언어의 특징인 class와 그외 관련 기능들을 지원합니다.</p>
+<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class [이름]&#123;</span><br><span class="line">    [<span class="keyword">private</span>|<span class="keyword">protected</span>|<span class="keyword">public</span>] [이름] : [타입]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">person1</span></span>&#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">    age?: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> jack1 : Person1 = <span class="keyword">new</span> Person1()</span><br><span class="line">jack1.name = <span class="string">&#x27;jack&#x27;</span>;</span><br><span class="line">jack1.age = <span class="number">32</span>;</span><br><span class="line"><span class="built_in">console</span>.log(jack1) <span class="comment">// Person1 &#123;name:&#x27;jack&#x27;, age: 32&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="접근-제한자"><a href="#접근-제한자" class="headerlink" title="접근 제한자"></a>접근 제한자</h3><p>public, private, protected 3가지가 존재합니다.<br><br>따로 설정하지 않으면 default로 public으로 됩니다.</p>
+<h3 id="생성자"><a href="#생성자" class="headerlink" title="생성자"></a>생성자</h3><p>constructor이라는 메소드를 이용하여 생성자를 작성합니다.</p>
+<p><strong>ex01)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ex03을 축약해서 작성한 클래스</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person2</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> age?: <span class="built_in">number</span></span>)</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> jack2 : Person2 = <span class="keyword">new</span> Person2(<span class="string">&#x27;Jack&#x27;</span>, <span class="number">32</span>)</span><br><span class="line"><span class="built_in">console</span>.log(jack2) <span class="comment">// Person2 &#123;name:&#x27;Jack&#x27;, age: 32&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>ex02)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person3</span></span>&#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">    age?: <span class="built_in">number</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">name: <span class="built_in">string</span>, age?: <span class="built_in">number</span></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name</span><br><span class="line">        <span class="built_in">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> jack3 : Person3 = <span class="keyword">new</span> Person3(<span class="string">&#x27;Jack&#x27;</span>,<span class="number">32</span>)</span><br><span class="line"><span class="built_in">console</span>.log(jack3) <span class="comment">// Person3 &#123;name:&#x27;Jack&#x27;, age: 32&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="인터페이스-구현"><a href="#인터페이스-구현" class="headerlink" title="인터페이스 구현"></a>인터페이스 구현</h3><p>implements를 이용하여 작성한 interface를 구현할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class [이름] implements [인터페이스 이름]</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IPerson4&#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">    age?: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person4</span> <span class="title">implements</span> <span class="title">IPerson4</span></span>&#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">    age: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>클래스 몸통에는 반드시 인터페이스가 정의하고 있는 속성을 멤버 속성으로 포함해야 합니다.</p>
+</blockquote>
+<p><strong>ex_인터페이스 구현 응용)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IPerson4&#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">    age?: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person4</span> <span class="title">implements</span> <span class="title">Iperson4</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> age?: <span class="built_in">number</span></span>)</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> jack4 : IPerson4 = <span class="keyword">new</span> Person4(<span class="string">&#x27;Jack&#x27;</span>, <span class="number">32</span>)</span><br><span class="line"><span class="built_in">console</span>.log(jack4) <span class="comment">// Person4 &#123;name:&#x27;Jack&#x27;, age: 32&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="추상-클래스"><a href="#추상-클래스" class="headerlink" title="추상 클래스"></a>추상 클래스</h3><p>abstract를 이용하여 추상클래스를 만들 수 있습니다.<br>속성이나 메소드 앞에 붙여 상속하는 다른 클래스에서 abstract를 붙인 속성과 메소드를 구현하게 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">abstract class [이름]&#123;</span><br><span class="line">    <span class="keyword">abstract</span> [이름] : [타입]</span><br><span class="line">    <span class="keyword">abstract</span> [이름]() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong><br>name 앞에 abstract 때문에 객체를 만들 수 없음, 즉 오류</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractPerson5</span></span>&#123;</span><br><span class="line">    <span class="keyword">abstract</span> name: <span class="built_in">string</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">public</span> age?: <span class="built_in">number</span></span>)</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="클래스-상속"><a href="#클래스-상속" class="headerlink" title="클래스 상속"></a>클래스 상속</h3><p>extends를 사용하여 클래스를 상속받을 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class [이름] extends [부모 클래스]&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>타입스크립트는 부모 클래스의 생성자를 super 키워드로 호출이 가능합니다.</p>
+</blockquote>
+<h3 id="static-속성"><a href="#static-속성" class="headerlink" title="static 속성"></a>static 속성</h3><p>정적인 속성을 가지기 위해 사용합니다. </p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class [이름]&#123;</span><br><span class="line">    <span class="keyword">static</span> [이름] : [타입]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> initValue = <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> initVal = A.initValue   <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+
+<p>initValue는 정적 속성입니다.</p>
+<h1 id="객체의-비구조화-할당문"><a href="#객체의-비구조화-할당문" class="headerlink" title="객체의 비구조화 할당문"></a>객체의 비구조화 할당문</h1><h2 id="구조화"><a href="#구조화" class="headerlink" title="구조화"></a>구조화</h2><p>구조화 이전의 코드</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> personName = <span class="string">&#x27;Jack&#x27;</span></span><br><span class="line"><span class="keyword">let</span> personAge = <span class="number">32</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> companyName = <span class="string">&#x27;apple company, inc&#x27;</span></span><br><span class="line"><span class="keyword">let</span> companyAge = <span class="number">43</span></span><br></pre></td></tr></table></figure>
+
+<p>구조화한 코드</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> IPerson&#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">    age: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> ICompany&#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">    age: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">----------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;IPerson, ICompany&#125; <span class="keyword">from</span> <span class="string">&#x27;./IPerson_ICompany&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> jack: IPerson = &#123;<span class="attr">name</span>: <span class="string">&#x27;Jack&#x27;</span>, <span class="attr">age</span>: <span class="number">32</span>&#125;,</span><br><span class="line">    jane: IPerson = &#123;<span class="attr">name</span>: <span class="string">&#x27;jane&#x27;</span>, <span class="attr">age</span>: <span class="number">32</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> apple: ICompany = &#123;<span class="attr">name</span>: <span class="string">&#x27;Apple&#x27;</span>, <span class="attr">age</span>: <span class="number">43</span>&#125;,</span><br><span class="line">    ms : ICompany = &#123;<span class="attr">name</span>: <span class="string">&#x27;Microsoft&#x27;</span>, <span class="attr">age</span>: <span class="number">44</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="비구조화"><a href="#비구조화" class="headerlink" title="비구조화"></a>비구조화</h2><p>데이터의 일부만 사용해야 할 때 사용합니다.<br>구조화된 데이터를 분해하는 것을 비구조화 라고 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> name = jack.name, age = jack.age</span><br></pre></td></tr></table></figure>
+
+<h2 id="비구조화-할당"><a href="#비구조화-할당" class="headerlink" title="비구조화 할당"></a>비구조화 할당</h2><p>js에서도 사용되는 구문으로 타입스크립트에서도 사용합니다.<br><br>배열과 튜플에도 적용하여 사용할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> &#123;[이름<span class="number">1</span>], [이름<span class="number">2</span>]&#125; = [객체]</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> &#123;name, age&#125; = jack</span><br><span class="line"></span><br><span class="line"><span class="comment">// name =&gt; Jack</span></span><br><span class="line"><span class="comment">// age =&gt; 32</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="잔여-연산자"><a href="#잔여-연산자" class="headerlink" title="잔여 연산자"></a>잔여 연산자</h2><p>(…) 점 3개를 연이어 사용합니다.<br><br>사용되는 위치에 따라 잔여연산자, 전개연사자라고 부릅니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> address: <span class="built_in">any</span> = &#123;</span><br><span class="line">    country: <span class="string">&#x27;Korea&#x27;</span>,</span><br><span class="line">    city: <span class="string">&#x27;Seoul&#x27;</span>,</span><br><span class="line">    address1: <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">    address2: <span class="string">&#x27;2&#x27;</span>,</span><br><span class="line">    address3: <span class="string">&#x27;3&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123;country, city, ...detail&#125; = address</span><br><span class="line"><span class="built_in">console</span>.log(detail)</span><br><span class="line"><span class="comment">// &#123;address1: &#x27;1&#x27;, address2: &#x27;2&#x27;, address3: &#x27;3&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>detail이라는 변수에 address1,2,3이 모두 들어가 있음을 확인할 수 있습니다.</p>
+<h2 id="전개-연산자"><a href="#전개-연산자" class="headerlink" title="전개 연산자"></a>전개 연산자</h2><p>점 3개 연산자가 비구조화 할당문이 아닌곳에서 사용될 때 전개 연산자라고 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> part1 = &#123;<span class="attr">name</span>: <span class="string">&#x27;jane&#x27;</span>&#125;, part2 = &#123;<span class="attr">age</span>: <span class="number">22</span>&#125;. part3 = &#123;<span class="attr">city</span>:<span class="string">&#x27;seoul&#x27;</span>, <span class="attr">country</span>: <span class="string">&#x27;Kr&#x27;</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> merged = &#123;...part1, ...part2, ...part3&#125;</span><br><span class="line"><span class="built_in">console</span>.log(merged)</span><br><span class="line"><span class="comment">// &#123;name: &#x27;jane&#x27;, age: 22, city: &#x27;seoul&#x27;, country: &#x27;Kr&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="객체의-타입-변환"><a href="#객체의-타입-변환" class="headerlink" title="객체의 타입 변환"></a>객체의 타입 변환</h1><h2 id="타입-변환"><a href="#타입-변환" class="headerlink" title="타입 변환"></a>타입 변환</h2><p>person 변수의 타입은 object이기 때문에 name속성을 가지지 않으므로 오류가 납니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person : <span class="built_in">object</span> = &#123;<span class="attr">name</span>: <span class="string">&quot;Jack&quot;</span>, <span class="attr">age</span>: <span class="number">32</span>&#125;;</span><br><span class="line">person.name <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+
+<p>일시적으로 name속성이 있는 타입({name : string})으로 변환합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person : <span class="built_in">object</span> = &#123;<span class="attr">name</span>: <span class="string">&quot;Jack&quot;</span>, <span class="attr">age</span>: <span class="number">32</span>&#125;;</span><br><span class="line">(&lt;&#123;<span class="attr">name</span>:<span class="built_in">string</span>&#125;&gt;person).name</span><br></pre></td></tr></table></figure>
+
+<h2 id="타입-단언"><a href="#타입-단언" class="headerlink" title="타입 단언"></a>타입 단언</h2><p>타입 스크립트에서는 타입 선언이 아닌 타입 단언을 사용합니다.<br><br>두가지 형태로 사용이 가능합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(&lt;[타입]&gt;[객체])</span><br><span class="line">([객체] <span class="keyword">as</span> [타입])</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">interface</span> INameable&#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> INameable <span class="keyword">from</span> <span class="string">&#x27;./INameable&#x27;</span></span><br><span class="line"><span class="keyword">let</span> obj: <span class="built_in">object</span> = &#123;<span class="attr">name</span>: <span class="string">&#x27;Jack&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> name1 = (&lt;INameable&gt;obj).name</span><br><span class="line"><span class="keyword">let</span> name2 = (obj <span class="keyword">as</span> INameable).name</span><br><span class="line"><span class="built_in">console</span>.log(name1, name2)   <span class="comment">// Jack Jack</span></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Leo</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>You just have to get started.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/javascript/"># javascript</a>
+                    
+                        <a href="/tags/typescript/"># typescript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://leodevblog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Leo | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
