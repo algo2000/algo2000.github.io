@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko,default">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Leo">
+
+
+    <meta name="subtitle" content="매일, Everyday, 毎日">
+
+
+
+
+<title>02) typescript 함수, 메서드 | Leo&#39;s Dev Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Leo&#39;s Dev Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Leo&#39;s Dev Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">02) typescript 함수, 메서드</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Leo</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12월 25, 2020&nbsp;&nbsp;23:43:54</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/">개발 일지</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/">typescript</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="함수-선언"><a href="#함수-선언" class="headerlink" title="함수 선언"></a>함수 선언</h1><p>타입 스크립트는 함수의 리턴 타입을 명시하는 형태로 구성됩니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> [이름] (<span class="params">[변수]:[타입],[변수]:[타입], ...</span>) : [타입]</span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>) : <span class="title">number</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>반환 타입은 생략할 수 있지만 좋은 방법이 아닙니다.<br><br>그러므로 적어주는 것을 추천합니다.</p>
+</blockquote>
+<h2 id="void-타입"><a href="#void-타입" class="headerlink" title="void 타입"></a>void 타입</h2><p>값을 반환하지 않는 함수 입니다.<br></p>
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printMe</span>(<span class="params">name: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`name: <span class="subst">$&#123;name&#125;</span>, age: <span class="subst">$&#123;age&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="함수-시그니처"><a href="#함수-시그니처" class="headerlink" title="함수 시그니처"></a>함수 시그니처</h2><p>함수에도 타입이라는 개념이 존재합니다. 함수의 타입을 <a href="">함수 시그니처</a>라고 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">([매개변수 타입<span class="number">1</span>], [매개변수 타입<span class="number">2</span>], ...) =&gt; [반환 값의 타입]</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> printMe: <span class="function">(<span class="params"><span class="built_in">string</span>, <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span> = <span class="function"><span class="keyword">function</span> (<span class="params">name: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>): <span class="title">void</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>함수 시그니처는 <a href="">(string, number) =&gt; void</a> 입니다.<br><br>매개변수가 없다면 <a href="">() =&gt; void</a> 로 표현합니다. 매개변수와 반환값이 모두 없는 함수 입니다.</p>
+<h2 id="type-으로-별명-만들기"><a href="#type-으로-별명-만들기" class="headerlink" title="type 으로 별명 만들기"></a>type 으로 별명 만들기</h2><p>type은 기존에 존재하는 타입을 이름만 바꿔서 사용할 수 있도록 해줍니다.<br><br><a href="">타입 별칭</a>이라고 말합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> [새로운 타입] = [기존 타입]</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> stringNumberFunc = <span class="function">(<span class="params"><span class="built_in">string</span>, <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span></span><br><span class="line"><span class="keyword">let</span> f: stringNumberFunc = <span class="function"><span class="keyword">function</span>(<span class="params">a: <span class="built_in">string</span>, b: <span class="built_in">number</span></span>): <span class="title">void</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> g: stringNumberFunc = <span class="function"><span class="keyword">function</span>(<span class="params">c: <span class="built_in">string</span>, d: <span class="built_in">number</span></span>): <span class="title">void</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="">(string, number) =&gt; void</a> 함수 시그니처를 <a href="">stringNumberFunc</a> 이라는 타입 별칭으로 만듭니다.<br></p>
+<blockquote>
+<p>타입 별칭을 이용하여 타입 주석을 더 쉽게 붙일 수 있습니다.<br><br>함수의 시그니처를 명시하면 매개변수의 개수나 타입, 변환 타입이 다른 함수를 선언하는 잘못을 방지 할 수 있습니다.</p>
+</blockquote>
+<h2 id="undefined-주의-사항"><a href="#undefined-주의-사항" class="headerlink" title="undefined 주의 사항"></a>undefined 주의 사항</h2><p>undefined 타입은 타입 계층 중 모든 타입의 최하위 타입입니다.<br></p>
+<p><strong>잘못된 예시)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> INameable&#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params">o: INameable</span>) </span>&#123; <span class="keyword">return</span> o.name &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> n = getName(<span class="literal">undefined</span>) <span class="comment">// 오류 발생</span></span><br><span class="line"><span class="built_in">console</span>.log(n)</span><br></pre></td></tr></table></figure>
+<p><a href="">o.name</a>이 <a href="">undefined.name</a>처럼 되버려 오류가 나게 됩니다.</p>
+<blockquote>
+<p>이러한 오류 방지를 위해 undefined인지 판단하는 코드를 작성해야 합니다.</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> INameable &#123;</span><br><span class="line">    name: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"><span class="number">0</span>: INameable</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span> != <span class="literal">undefined</span> ? o.name : <span class="string">&#x27;unknown name&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> n = getName(<span class="literal">undefined</span>)</span><br><span class="line"><span class="built_in">console</span>.log(n)  <span class="comment">// unknown name</span></span><br><span class="line"><span class="built_in">console</span>.log(getName(&#123;<span class="attr">name</span>: <span class="string">&#x27;Jack&#x27;</span>&#125;)) <span class="comment">// Jack</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>인터페이스에 선택 속성이 있다면</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IAgeable &#123;</span><br><span class="line">    age?: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAge</span>(<span class="params"><span class="number">0</span>: IAgeable</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> o != <span class="literal">undefined</span> &amp;&amp; o.age ? o.age : <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(getAge(<span class="literal">undefined</span>))  <span class="comment">//0</span></span><br><span class="line"><span class="built_in">console</span>.log(getAge(<span class="literal">null</span>))   <span class="comment">//0</span></span><br><span class="line"><span class="built_in">console</span>.log(&#123;<span class="attr">age</span>: <span class="number">32</span>&#125;)  <span class="comment">//32</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>null과 undefined는 값이 완전히 같습니다.</p>
+</blockquote>
+<h2 id="선택적-매개변수"><a href="#선택적-매개변수" class="headerlink" title="선택적 매개변수"></a>선택적 매개변수</h2><p>이름 뒤에 물음표를 붙이는 것을 <a href="">선택적 매개변수</a> 라고 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">arg1: <span class="built_in">string</span>, arg2?: <span class="built_in">number</span></span>): <span class="title">void</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">arg1: <span class="built_in">string</span>, arg2?: <span class="built_in">number</span></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="string">`arg: <span class="subst">$&#123;arg&#125;</span>`</span>)&#125;</span><br><span class="line"></span><br><span class="line">fn(<span class="string">&#x27;hello&#x27;</span>, <span class="number">1</span>) <span class="comment">// arg2: 1</span></span><br><span class="line">fn(<span class="string">&#x27;hello&#x27;</span>) <span class="comment">// arg2: undefined</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>선택적 매개변수가 있는 함수의 시그니처</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> func = <span class="function">(<span class="params"><span class="built_in">string</span>, <span class="built_in">number</span>?</span>) =&gt;</span> <span class="built_in">void</span></span><br></pre></td></tr></table></figure>
+<p>선택적 매개변수가 있는 함수는 함수의 시그니처의 타입 뒤에 물음표를 붙입니다.</p>
+<h1 id="함수-표현식"><a href="#함수-표현식" class="headerlink" title="함수 표현식"></a>함수 표현식</h1><h2 id="함수-객체-function-object"><a href="#함수-객체-function-object" class="headerlink" title="함수 = 객체 (function = object)"></a>함수 = 객체 (function = object)</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> add = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;return a + b&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> result = add(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="built_in">console</span>.log(result) <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> add2 = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;<span class="keyword">return</span> a + b&#125;</span><br><span class="line"><span class="keyword">let</span> result = add2(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="built_in">console</span>.log(result) <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>위의 예시와 아래 예시는 같은 동작을 합니다.<br><br><a href="">function(a, b) {return a + b}</a>처럼 표현하는 것을 <a href="">함수 표현식</a>이라고 합니다.<br><br>함수 표현식은 함수형 언어(자바스크립트)의 핵심기능 입니다.</p>
+<h2 id="일등-함수"><a href="#일등-함수" class="headerlink" title="일등 함수"></a>일등 함수</h2><p>언어가 일등 함수를 제공한다면 함수형 프로그래밍 언어 입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> func = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;<span class="keyword">return</span> a + b&#125;</span><br><span class="line">func = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;<span class="keyword">return</span> a - b&#125;</span><br></pre></td></tr></table></figure>
+<p>처음에는 a + b라는 표현식을 저장하였지만 이후에 a - b라는 표현식을 대입합니다.<br>이처럼 변수인지 함수인지 차별하지 않고 담습니다.</p>
+<h2 id="계산법"><a href="#계산법" class="headerlink" title="계산법"></a>계산법</h2><p>컴파일러가 1 + 2 라는 표현식을 만나면 <a href="">조급한 계산식</a>을 적용해 3이라는 값을 만듭니다.<br>컴파일러가 <a href="">function(a, b) {return a + b}</a>를 만나면 a와 b의 값을 알 수 없어 <a href="">느긋한 계산법</a>을 적용하여 계산을 보류합니다.</p>
+<h2 id="함수-호출-연산자"><a href="#함수-호출-연산자" class="headerlink" title="함수 호출 연산자"></a>함수 호출 연산자</h2><p>변수 이름뒤에 <a href="">( )</a>를 붙이면 함수를 호출할 수 있습니다.<br><a href="">( )</a> 안에는 필요한 매개변수를 넣을 수 있습니다.</p>
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> functionExpression = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;<span class="keyword">return</span> a + b&#125;</span><br><span class="line"><span class="keyword">let</span> value = functionExpression(<span class="number">1</span>, <span class="number">2</span>) <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>컴파일러는 함수 호출문을 만나면 보류해둔 함수 표현식에 조급한 계산법을 적용해 함수 표현식을 값으로 바꿉니다.</p>
+<h2 id="익명-함수"><a href="#익명-함수" class="headerlink" title="익명 함수"></a>익명 함수</h2><p>일반적인 언어에서의 익명 함수와는 다른 개념입니다.</p>
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> value = (<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;<span class="keyword">return</span> a + b&#125;;)(<span class="number">1</span>, <span class="number">2</span>) <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="const-키워드와-함수-표현식"><a href="#const-키워드와-함수-표현식" class="headerlink" title="const 키워드와 함수 표현식"></a>const 키워드와 함수 표현식</h2><blockquote>
+<p>함수 표현식은 const를 사용하는 것이 바람직합니다.</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> f = <span class="function">() =&gt;</span> &#123;&#125; <span class="comment">// 이후에 f의 값이 변할 위험이 있음</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> f = <span class="function">() =&gt;</span> &#123;&#125; <span class="comment">// const로 선언시 절대 변하지 않음</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="화살표-함수와-표현식-문"><a href="#화살표-함수와-표현식-문" class="headerlink" title="화살표 함수와 표현식 문"></a>화살표 함수와 표현식 문</h1><p>function 뿐만 아닌 <a href="">=&gt;</a> 를 사용하는 화살표 함수도 사용이 가능합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [함수 이름] = ([변수]:[타입],[변수]:[타입], ...) : [<span class="keyword">return</span> 타입] =&gt; &#123;[함수의 내용]&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arrow1 = (a: <span class="built_in">number</span>, <span class="attr">b</span>: <span class="built_in">number</span>) : <span class="function"><span class="params">number</span> =&gt;</span> &#123; <span class="keyword">return</span> a + b &#125;</span><br><span class="line"><span class="keyword">const</span> arrow1 = (a: <span class="built_in">number</span>, <span class="attr">b</span>: <span class="built_in">number</span>) : <span class="function"><span class="params">number</span> =&gt;</span> a + b</span><br></pre></td></tr></table></figure>
+<p>중괄호를 작성할 수도 있으며 리턴밖에 없는 경우는 생략도 가능합니다..</p>
+<h2 id="실행문과-표현식-문"><a href="#실행문과-표현식-문" class="headerlink" title="실행문과 표현식 문"></a>실행문과 표현식 문</h2><p><a href="">실행문</a>은 CPU에서 실행되는 코드를 의미합니다.<br><a href="">실행문</a>은 CPU에서 실행만 될 뿐 결과를 알려주지 않습니다.<br><a href="">실행문</a>이 실행된 결과를 알려면 반드시 return 키워드를 사용해야 합니다.<br>반면 <a href="">표현식 문</a>은 CPU에서 실행된 결과를 return 키워드를 사용하지 않아도 알려줍니다.</p>
+<h2 id="복합-실행문"><a href="#복합-실행문" class="headerlink" title="복합 실행문"></a>복합 실행문</h2><p><strong>한줄 실행문</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (조건)</span><br><span class="line">    실행문</span><br></pre></td></tr></table></figure>
+<p><strong>복합 실행문</strong><br>복합 실행문은 중괄호를 사용합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (조건) &#123;</span><br><span class="line">    실행문</span><br><span class="line">    실행문</span><br><span class="line">    실행문</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="표현식-문-스타일의-화살표-함수"><a href="#표현식-문-스타일의-화살표-함수" class="headerlink" title="표현식 문 스타일의 화살표 함수"></a>표현식 문 스타일의 화살표 함수</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isGreater = (a: <span class="built_in">number</span>, <span class="attr">b</span>: <span class="built_in">number</span>): <span class="function"><span class="params">boolean</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a &gt; b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> isGreater = (a: <span class="built_in">number</span>, <span class="attr">b</span>: <span class="built_in">number</span>): <span class="function"><span class="params">boolean</span> =&gt;</span> a &gt; b</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>표현식 문에는 세미콜론을 붙이지 않습니다.</p>
+</blockquote>
+<h1 id="일등-함수-1"><a href="#일등-함수-1" class="headerlink" title="일등 함수"></a>일등 함수</h1><h2 id="콜백-함수"><a href="#콜백-함수" class="headerlink" title="콜백 함수"></a>콜백 함수</h2><p>매개변수 형태로 동작하는 함수를 <a href="">콜백 함수</a>라고 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> init = (callback: <span class="function">() =&gt;</span> <span class="built_in">void</span>): <span class="function"><span class="params">void</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;default initialization finished.&#x27;</span>)</span><br><span class="line">    callback()</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;all initialization finished&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;init&#125; <span class="keyword">from</span> <span class="string">&#x27;./init&#x27;</span></span><br><span class="line">init(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;custom initialization finished.&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>결과</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">default initialization finished.</span><br><span class="line">custom initialization finished.</span><br><span class="line">all initialization finished</span><br></pre></td></tr></table></figure>
+
+<h2 id="중첩-함수"><a href="#중첩-함수" class="headerlink" title="중첩 함수"></a>중첩 함수</h2><p>변수에 담긴 함수 표현식 안에 또 다른 함수를 중첩하여 구현이 가능합니다.</p>
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> calc = (value: <span class="built_in">number</span>, <span class="attr">cb</span>: <span class="function">(<span class="params"><span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span>): <span class="function"><span class="params">void</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> add = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">multiply</span>(<span class="params">a, b</span>) </span>&#123;<span class="keyword">return</span> a * b&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> result = multiply(add(<span class="number">1</span>, <span class="number">2</span>), value)</span><br><span class="line">    cb(result)</span><br><span class="line">&#125;</span><br><span class="line">calc(<span class="number">30</span>, <span class="function">(<span class="params">result: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`result is <span class="subst">$&#123;result&#125;</span>`</span>))</span><br><span class="line"><span class="comment">// result is 90</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="고차-함수와-클로저-부분-함수"><a href="#고차-함수와-클로저-부분-함수" class="headerlink" title="고차 함수와 클로저, 부분 함수"></a>고차 함수와 클로저, 부분 함수</h2><p><a href="">고차 함수</a>는 또 다른 함수를 반환하는 함수입니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 보통 함수 </span></span><br><span class="line"><span class="keyword">const</span> add1 = (a: <span class="built_in">number</span>, <span class="attr">b</span>: <span class="built_in">number</span>): <span class="function"><span class="params">number</span> =&gt;</span> a + b</span><br><span class="line"><span class="comment">// 고차 함수</span></span><br><span class="line"><span class="keyword">const</span> add2 = (a: <span class="built_in">number</span>): <span class="function">(<span class="params"><span class="built_in">number</span></span>) =&gt;</span> <span class="function"><span class="params">number</span> =&gt;</span> (b: <span class="built_in">number</span>): <span class="function"><span class="params">number</span> =&gt;</span> a + b</span><br></pre></td></tr></table></figure>
+<p><strong>고차 함수 호출</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> add1 = (a: <span class="built_in">number</span>): <span class="function">(<span class="params"><span class="built_in">number</span></span>) =&gt;</span> <span class="function"><span class="params">number</span> =&gt;</span> (b: <span class="built_in">number</span>): <span class="function"><span class="params">number</span> =&gt;</span> a + b</span><br><span class="line"><span class="keyword">const</span> result = add(<span class="number">1</span>)(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">console</span>.log(result) <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p><strong>함수 시그니처를 이용하여 쉽게 표현</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> NumberToNumberFunc = <span class="function">(<span class="params"><span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> add = (a:<span class="built_in">number</span>) : <span class="function"><span class="params">NumberToNumberFunc</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> _add: NumberToNumberFunc = (b: <span class="built_in">number</span>): <span class="function"><span class="params">number</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a + b <span class="comment">//클로저</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _add</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>클로저는 반드시 필요합니다.</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;NumberToNumberFunc, add&#125; <span class="keyword">from</span> <span class="string">&#x27;./add&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> func: NumberToNumberFunc = add(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> result = func(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">console</span>.log(result) <span class="comment">// 3</span></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">1</span>)(<span class="number">2</span>)) <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="함수-구현-기법"><a href="#함수-구현-기법" class="headerlink" title="함수 구현 기법"></a>함수 구현 기법</h1><h2 id="매개변수-기본값-지정"><a href="#매개변수-기본값-지정" class="headerlink" title="매개변수 기본값 지정"></a>매개변수 기본값 지정</h2><p>인수로 전달하지 않더라도 기본값으로 사용할 수 있는 매개변수를 <a href="">디폴트 매개변수</a>라고 합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">([매개변수]:[타입] = [매개변수의 기본값])</span><br></pre></td></tr></table></figure>
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> Person = &#123;<span class="attr">name</span>: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> makePerson = (name: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">10</span>): <span class="function"><span class="params">Person</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> person = &#123;<span class="attr">name</span>: name, <span class="attr">age</span>: age&#125;</span><br><span class="line">    <span class="keyword">return</span> person</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(makePerson(<span class="string">&#x27;Jack&#x27;</span>)) <span class="comment">// &#123;name: &#x27;Jack&#x27;, age: 10&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(makePerson(<span class="string">&#x27;Jane&#x27;</span>,<span class="number">33</span>)) <span class="comment">// &#123;name: &#x27;Jane&#x27;, age: 33&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="객체-생성-시-값-부분-생략"><a href="#객체-생성-시-값-부분-생략" class="headerlink" title="객체 생성 시 값 부분 생략"></a>객체 생성 시 값 부분 생략</h2><p>매개변수의 이름이 똑같은 이름과 같은 이름의 속성를 가진 객체를 만들 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> makePerson = <span class="function">(<span class="params">name: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> person = &#123;name, age&#125;  <span class="comment">// &#123;name: name, age: age&#125;의 닽축 표현</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> Person = &#123;<span class="attr">name</span>: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> makePerson = (name: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">10</span>): <span class="function"><span class="params">Person</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> person = &#123;name, age&#125;</span><br><span class="line">    <span class="keyword">return</span> person</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(makePerson(<span class="string">&#x27;Jack&#x27;</span>)) <span class="comment">// &#123;name: &#x27;Jack&#x27;, age: 10&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(makePerson(<span class="string">&#x27;Jane&#x27;</span>,<span class="number">33</span>)) <span class="comment">// &#123;name: &#x27;Jane&#x27;, age: 33&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="객체를-반환하는-화살표-함수"><a href="#객체를-반환하는-화살표-함수" class="headerlink" title="객체를 반환하는 화살표 함수"></a>객체를 반환하는 화살표 함수</h2><p>화살표 함수에서 객체를 변환합니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> makePerson = (name: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">10</span>): <span class="function"><span class="params">Person</span> =&gt;</span> (&#123;name, age&#125;)</span><br></pre></td></tr></table></figure>
+<p><a href="">({name, age})</a> 괄호가 빠진 경우 복합 실행문으로 해석합니다.</p>
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> Person = &#123;<span class="attr">name</span>: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> makePerson = (name: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">10</span>): <span class="function"><span class="params">Person</span> =&gt;</span> (&#123;name,age&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(makePerson(<span class="string">&#x27;Jack&#x27;</span>)) <span class="comment">// &#123;name: &#x27;Jack&#x27;, age: 10&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(makePerson(<span class="string">&#x27;Jane&#x27;</span>,<span class="number">33</span>)) <span class="comment">// &#123;name: &#x27;Jane&#x27;, age: 33&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="매개변수에-비구조화-할당문-사용"><a href="#매개변수에-비구조화-할당문-사용" class="headerlink" title="매개변수에 비구조화 할당문 사용"></a>매개변수에 비구조화 할당문 사용</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> Person = &#123;<span class="attr">name</span>: <span class="built_in">string</span>, <span class="attr">age</span>: <span class="built_in">number</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> printPerson = (&#123;name, age&#125;: Person): <span class="function"><span class="params">void</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`name: <span class="subst">$&#123;name&#125;</span>, age: <span class="subst">$&#123;age&#125;</span>`</span>)</span><br><span class="line"></span><br><span class="line">printPerson(&#123;<span class="attr">name</span>:<span class="string">&#x27;Jack&#x27;</span>, <span class="attr">age</span>: <span class="number">10</span>&#125;) <span class="comment">// name: Jack, age: 10</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="색인-키와-값으로-객체-만들기"><a href="#색인-키와-값으로-객체-만들기" class="headerlink" title="색인 키와 값으로 객체 만들기"></a>색인 키와 값으로 객체 만들기</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> makeObject = <span class="function">(<span class="params">key, value</span>) =&gt;</span> (&#123;[key]: value&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(makeObject(<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;Jack&#x27;</span>))  <span class="comment">// &#123;name: &#x27;Jack&#x27;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(makeObject(<span class="string">&#x27;firstname&#x27;</span>,<span class="string">&#x27;Jane&#x27;</span>)) <span class="comment">// &#123;firstname: &#x27;Jane&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>색인 기능 타입</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> KeyValueType = &#123;</span><br><span class="line">    [key: <span class="built_in">string</span>]: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> makeObject = (key: <span class="built_in">string</span>, <span class="attr">value</span>: <span class="built_in">string</span>): KeyValueType = &gt; (&#123;[key]: value&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(makeObject(<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;Jack&#x27;</span>))  <span class="comment">// &#123;name: &#x27;Jack&#x27;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(makeObject(<span class="string">&#x27;firstname&#x27;</span>,<span class="string">&#x27;Jane&#x27;</span>)) <span class="comment">// &#123;firstname: &#x27;Jane&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="클래스-메서드"><a href="#클래스-메서드" class="headerlink" title="클래스 메서드"></a>클래스 메서드</h1><h2 id="function-함수-this"><a href="#function-함수-this" class="headerlink" title="function 함수, this"></a>function 함수, this</h2><p>함수는 객체 object에 속해있습니다. 즉, 클래스의 인스턴스 입니다.<br>typescript에서는 function키워드 함수에 this 키워드를 사용할 수 있습니다.<br>하지만 화살표 함수에는 사용이 불가능 합니다.</p>
+<h2 id="메서드"><a href="#메서드" class="headerlink" title="메서드"></a>메서드</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    value: <span class="built_in">number</span> = <span class="number">1</span></span><br><span class="line">    method: <span class="function">() =&gt;</span> <span class="built_in">void</span> = <span class="function"><span class="keyword">function</span>(<span class="params"></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`value: <span class="subst">$&#123;<span class="built_in">this</span>.value&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;A&#125; <span class="keyword">from</span> <span class="string">&#x27;./A&#x27;</span></span><br><span class="line"><span class="keyword">let</span> a: A = <span class="keyword">new</span> A</span><br><span class="line">a.method() <span class="comment">// value: 1</span></span><br></pre></td></tr></table></figure>
+<p>단축 구문을 이용하여 더욱 보기 쉽게 만들 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">public</span> value: <span class="built_in">number</span> = <span class="number">1</span></span>)</span>&#123;&#125;</span><br><span class="line">    method(): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`value: <span class="subst">$&#123;<span class="built_in">this</span>.value&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;A&#125; <span class="keyword">from</span> <span class="string">&#x27;./A&#x27;</span></span><br><span class="line"><span class="keyword">let</span> a: A = <span class="keyword">new</span> A(<span class="number">2</span>)</span><br><span class="line">a.method() <span class="comment">// value: 2</span></span><br></pre></td></tr></table></figure>
+<p>위 코드와 같은 동작을 합니다.</p>
+<h2 id="정적-메서드"><a href="#정적-메서드" class="headerlink" title="정적 메서드"></a>정적 메서드</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[클래스].[정적 메서드]()</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex)</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> whoAreYou(): <span class="built_in">string</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">`I&#x27;m class A`</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> whoAreYou(): <span class="built_in">string</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">`I&#x27;m class B`</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(A.whoAreYou())  <span class="comment">//I&#x27;m class A</span></span><br><span class="line"><span class="built_in">console</span>.log(B.whoAreYou())  <span class="comment">//I&#x27;m class B</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="메소드-체인"><a href="#메소드-체인" class="headerlink" title="메소드 체인"></a>메소드 체인</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">calculator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">public</span> value: <span class="built_in">number</span> = <span class="number">0</span></span>)</span> &#123;&#125;</span><br><span class="line">    <span class="function"><span class="title">add</span>(<span class="params">value: <span class="built_in">number</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.value += value</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">multiply</span>(<span class="params">value: <span class="built_in">number</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.value *= value</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;Calculator&#125; <span class="keyword">from</span> <span class="string">&#x27;./Calculator&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> calc = <span class="keyword">new</span> Calculator</span><br><span class="line"><span class="keyword">let</span> result = calc.add(<span class="number">1</span>).add(<span class="number">2</span>).multiply(<span class="number">3</span>).multiply(<span class="number">4</span>).value</span><br><span class="line"><span class="built_in">console</span>.log(result) <span class="comment">// (0 + 1 + 2) * 3 * 4 = 36</span></span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Leo</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>You just have to get started.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/javascript/"># javascript</a>
+                    
+                        <a href="/tags/typescript/"># typescript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://leodevblog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Leo | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
