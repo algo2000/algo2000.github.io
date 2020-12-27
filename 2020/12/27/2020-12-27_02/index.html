@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko,default">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Leo">
+
+
+    <meta name="subtitle" content="매일, Everyday, 毎日">
+
+
+
+
+<title>04) typescript 반복기, 생성기 | Leo&#39;s Dev Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Leo&#39;s Dev Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Leo&#39;s Dev Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">04) typescript 반복기, 생성기</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Leo</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12월 27, 2020&nbsp;&nbsp;15:42:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/">개발 일지</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/">typescript</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="반복기"><a href="#반복기" class="headerlink" title="반복기"></a>반복기</h1><h2 id="반복기-반복기-제공자"><a href="#반복기-반복기-제공자" class="headerlink" title="반복기, 반복기 제공자"></a>반복기, 반복기 제공자</h2><p>반복기의 대부분의 언어들에서의 특징</p>
+<blockquote>
+<p>next라는 이름의 메소드 제공<br>next 메소드는 value와 done이라는 두개의 속성을 가진 객체 반환</p>
+</blockquote>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> createRangeIterable = <span class="function">(<span class="params"><span class="keyword">from</span>: <span class="built_in">number</span>, to: <span class="built_in">number</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> currentValue = <span class="keyword">from</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="function"><span class="title">next</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> value = currentValue &lt; to ? currentValue++ : <span class="literal">undefined</span></span><br><span class="line">            <span class="keyword">const</span> done = value == <span class="literal">undefined</span></span><br><span class="line">            <span class="keyword">return</span> &#123;value, done&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;createRangeIterable&#125; <span class="keyword">from</span> <span class="string">&#x27;./createRangeIterable&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> iterator = createRangeIterable(<span class="number">1</span>, <span class="number">3</span> + <span class="number">1</span>)</span><br><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;value, done&#125; = iterator.next()</span><br><span class="line">    <span class="keyword">if</span>(done) <span class="keyword">break</span></span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 1 2 3</span></span><br></pre></td></tr></table></figure>
+
+<p>반복기를 사용시 값이 필요한 시점에서 생성하지만 range함수 같은 것을 사용하면 미리 값을 생성합니다.<br>이처럼 시스템 메모리의 효율성이라는 관점에서 반복기를 사용하는 것이 메모리를 적게 소모합니다.</p>
+<h2 id="for-…of-Symbol-iterator-메소드"><a href="#for-…of-Symbol-iterator-메소드" class="headerlink" title="for …of, [Symbol.iterator]메소드"></a>for …of, [Symbol.iterator]메소드</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">RangeIterable</span> </span>&#123;</span><br><span class="line">    <span class="title">constructor</span> (<span class="params"><span class="keyword">public</span> <span class="keyword">from</span>: <span class="built_in">number</span>, <span class="keyword">public</span> to: <span class="built_in">number</span></span>) &#123;&#125;</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">        <span class="keyword">const</span> that = <span class="built_in">this</span></span><br><span class="line">        <span class="keyword">let</span> currentValue = that.from</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="function"><span class="title">next</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">                <span class="keyword">const</span> value = currentValue &lt; to ? currentValue++ : <span class="literal">undefined</span></span><br><span class="line">                <span class="keyword">const</span> done = value == <span class="literal">undefined</span></span><br><span class="line">                <span class="keyword">return</span> &#123;value, done&#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;RangeIterable&#125; <span class="keyword">from</span> <span class="string">&#x27;./RangeIterable&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> iterator = <span class="keyword">new</span> RangeIterable(<span class="number">1</span>, <span class="number">3</span> + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> value <span class="keyword">of</span> iterator)</span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1 2 3</span></span><br></pre></td></tr></table></figure>
+<p>앞서 작성한 <a href="">createRangeIterable</a>를 [Symbol.iterator]를 사용하여 for of문에서 사용이 가능하도록 할 수 있습니다.</p>
+<h2 id="Iterable-Iterator-인터페이스"><a href="#Iterable-Iterator-인터페이스" class="headerlink" title="Iterable, Iterator 인터페이스"></a>Iterable<T>, Iterator<T> 인터페이스</h2><p>ts는 <a href="">Iterable&lt;T&gt;</a>, <a href="">Iterator&lt;T&gt;</a> 제네릭 인터페이스르 지원합니다.<br><a href="">Iterable&lt;T&gt;</a>는 자신을 구현하는 클래스가 [Symbol.iterator]메소드 제공한다는 것을 알려주는 역할을 합니다.<br>또한 반복기가 생성할 값의 타입을 명확하게 해줍니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">StringIterable</span> <span class="title">implements</span> <span class="title">Iterable</span>&lt;<span class="title">string</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">private</span> strings: <span class="built_in">string</span>[] = [], <span class="keyword">private</span> currentIndex: <span class="built_in">number</span> = <span class="number">0</span></span>)</span> &#123;&#125;</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator](): Iterator&lt;<span class="built_in">string</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">const</span> that = <span class="built_in">this</span></span><br><span class="line">        <span class="keyword">let</span> currentIndex = that.currentIndex, length = that.strings.length</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> iterator: Iterator&lt;<span class="built_in">string</span>&gt; = &#123;</span><br><span class="line">            next() : &#123;<span class="attr">value</span>: <span class="built_in">string</span>, <span class="attr">done</span>: <span class="built_in">boolean</span>&#125; &#123;</span><br><span class="line">                <span class="keyword">const</span> value = currentIndex &lt; length ? that.strings[currentIndex++]: <span class="literal">undefined</span></span><br><span class="line">                <span class="keyword">const</span> done = value == <span class="literal">undefined</span></span><br><span class="line">                <span class="keyword">return</span> &#123;value, done&#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> iterator</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;StringIterable&#125; <span class="keyword">from</span> <span class="string">&#x27;./StringIterable&#x27;</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> value <span class="keyword">of</span> <span class="keyword">new</span> StringIterable([<span class="string">&#x27;hello&#x27;</span>, <span class="string">&#x27;world&#x27;</span>, <span class="string">&#x27;!&#x27;</span>]))</span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line"></span><br><span class="line"><span class="comment">// hello world !</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="생성기"><a href="#생성기" class="headerlink" title="생성기"></a>생성기</h1><h2 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h2><p>ts와 js는 yield 키워드를 제공합니다.<br>yield는 return처럼 값을 반환합니다.<br>yield는 반드시 function* 키워드를 사용한 함수에서만 사용이 가능합니다.<br>function* 키워드를 사용하여 만든 함수를 <a href="">생성기</a> 라고 합니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span>* <span class="title">generator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;generator started...&#x27;</span>)</span><br><span class="line">    <span class="keyword">let</span> value = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(value &lt; <span class="number">4</span>)</span><br><span class="line">        <span class="keyword">yield</span> value++</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;generator finished...&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;generator&#125; <span class="keyword">from</span> <span class="string">&#x27;./generator&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> value <span class="keyword">of</span> generator())</span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line"></span><br><span class="line"><span class="comment">// generator started...</span></span><br><span class="line"><span class="comment">// 1 2 3</span></span><br><span class="line"><span class="comment">// generator finished...</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="setInterval-함수와-생성기의-유사성"><a href="#setInterval-함수와-생성기의-유사성" class="headerlink" title="setInterval 함수와 생성기의 유사성"></a>setInterval 함수와 생성기의 유사성</h2><p>생성기가 동작하는 방식을 <a href="">세미코루틴</a>이라고 합니다.<br>세미코루틴이란 ts처럼 단일 스레드로 동작하는 언어를 마치 다중 스레드로 동작하는 것처럼 보이게 하는 기능입니다.<br>js의 setInterval 함수는 지정한 주기로 콜백 함수를 계속 호출합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> intervalID = <span class="built_in">setInterval</span>([콜백 함수], [호출 주기])</span><br><span class="line"><span class="comment">// 멈추는 함수</span></span><br><span class="line"><span class="built_in">clearInterval</span>(intervalID)</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> period = <span class="number">1000</span></span><br><span class="line"><span class="keyword">let</span> count = <span class="number">0</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;program started...&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> id = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(count &gt;= <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="built_in">clearInterval</span>(id)</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;program finished...&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(++count)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, period)</span><br><span class="line"></span><br><span class="line"><span class="comment">// program started...</span></span><br><span class="line"><span class="comment">// 1 2 3</span></span><br><span class="line"><span class="comment">// program finished...</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="fuction"><a href="#fuction" class="headerlink" title="fuction*"></a>fuction*</h2><blockquote>
+<p>function* 키워드로 함수를 선언합니다.<br>함수 몸통 안에 yield 가 있습니다.</p>
+</blockquote>
+<p>한가지 더 주의해야할 점은 function*은 functiondp 별을 붙인게 아닌 하나의 독립적이 키워드 입니다.</p>
+<h2 id="yield-1"><a href="#yield-1" class="headerlink" title="yield"></a>yield</h2><blockquote>
+<p>반복기를 자동으로 만들어 줍니다.<br>반복기 제공자 역할도 수행합니다.</p>
+</blockquote>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span>* <span class="title">rangeGenerator</span>(<span class="params"><span class="keyword">from</span>: nubmer, to: <span class="built_in">number</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> value = <span class="keyword">from</span></span><br><span class="line">    <span class="keyword">while</span>(value &lt; to) &#123;</span><br><span class="line">        <span class="keyword">yield</span> value++</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">---------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;rangeGenerator&#125; <span class="keyword">from</span> <span class="string">&#x27;./rangeGenerator&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> iterator = rangeGenerator(<span class="number">1</span>, <span class="number">3</span> + <span class="number">1</span>)</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;value, done&#125; = iterator.next()</span><br><span class="line">    <span class="keyword">if</span>(done) <span class="keyword">break</span></span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 1 2 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> value <span class="keyword">of</span> rangeGenerator(<span class="number">4</span>, <span class="number">6</span> + <span class="number">1</span>))</span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line"><span class="comment">// 4 5 6</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="반복기-제공자의-메소드로-동작하는-생성기"><a href="#반복기-제공자의-메소드로-동작하는-생성기" class="headerlink" title="반복기 제공자의 메소드로 동작하는 생성기"></a>반복기 제공자의 메소드로 동작하는 생성기</h2><p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">IterableUsingGenerator</span>&lt;<span class="title">T</span>&gt; <span class="title">implements</span> <span class="title">Iterable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"><span class="keyword">private</span> values: T[] = [], <span class="keyword">private</span> currentIndex: <span class="built_in">number</span> = <span class="number">0</span></span>)</span> &#123;&#125;</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator] = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">this</span>.currentIndex &lt; <span class="built_in">this</span>.values.length) &#123;</span><br><span class="line">            <span class="keyword">yield</span> <span class="built_in">this</span>.values[<span class="built_in">this</span>.currentIndex++]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;IterableUsingGenerator&#125; <span class="keyword">from</span> <span class="string">&#x27;./IterableUsingGenerator&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> <span class="keyword">new</span> IterableUsingGenerator([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]))</span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line"><span class="comment">// 1 2 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> <span class="keyword">new</span> IterableUsingGenerator([<span class="string">&#x27;hello&#x27;</span>,<span class="string">&#x27;world&#x27;</span>,<span class="string">&#x27;!&#x27;</span>]))</span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line"><span class="comment">// hello world !</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="yield-2"><a href="#yield-2" class="headerlink" title="yield*"></a>yield*</h2><p>ts에서는 yield 뒤에 별을 붙인 <a href="">yield*</a>을 제공합니다.<br><a href="">yield*</a>는 다른 생성기나 배열을 대상으로 동작합니다.<br><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen12</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span>* <span class="title">gen12345</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span>* gen12()</span><br><span class="line">    <span class="keyword">yield</span>* [<span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">5</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-----------------------</span><br><span class="line"><span class="keyword">import</span> &#123;gen12345&#125; <span class="keyword">from</span> <span class="string">&#x27;./yield-star&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> value <span class="keyword">of</span> gen12345())</span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1 2 3 4 5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="yield-반환값"><a href="#yield-반환값" class="headerlink" title="yield 반환값"></a>yield 반환값</h2><p>yield 연산자는 값을 반환합니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> count = <span class="number">5</span></span><br><span class="line">    <span class="keyword">let</span> select = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span>(count--) &#123;</span><br><span class="line">        select = <span class="keyword">yield</span> <span class="string">`you select <span class="subst">$&#123;select&#125;</span>`</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> random = <span class="function">(<span class="params">max, min = <span class="number">0</span></span>) =&gt;</span> <span class="built_in">Math</span>.round(<span class="built_in">Math</span>.random() * (max - min)) + min</span><br><span class="line"></span><br><span class="line">------------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;random, gen&#125; <span class="keyword">from</span> <span class="string">&#x27;./yield-return&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> iter = gen()</span><br><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;value, done&#125; = iter.next(random(<span class="number">10</span>,<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">if</span>(done) <span class="keyword">break</span></span><br><span class="line">    <span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>첫 줄 외에 다른 줄은 모두 난수가 출력 됩니다.<br>첫 줄이 0으로 출력되는 이유는 select 변수의 초기 값이 0이기 때문입니다.</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Leo</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>You just have to get started.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/javascript/"># javascript</a>
+                    
+                        <a href="/tags/typescript/"># typescript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://leodevblog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Leo | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
