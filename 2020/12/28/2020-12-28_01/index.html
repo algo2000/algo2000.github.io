@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko,default">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Leo">
+
+
+    <meta name="subtitle" content="매일, Everyday, 毎日">
+
+
+
+
+<title>06) typescript 함수 조합의 원리, 응용 | Leo&#39;s Dev Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Leo&#39;s Dev Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Leo&#39;s Dev Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">06) typescript 함수 조합의 원리, 응용</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Leo</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12월 28, 2020&nbsp;&nbsp;18:42:30</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/">개발 일지</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/">typescript</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="함수형-프로그래밍"><a href="#함수형-프로그래밍" class="headerlink" title="함수형 프로그래밍"></a>함수형 프로그래밍</h1><p>함수형 프로그래밍의 세가지 수학 이론</p>
+<blockquote>
+<p>람다 수학 : 조합 논리와 카테고리 이론의 토대가 되는 논리 수학<br>조합 논리 : 함수 조합의 이론적 배격<br>카테고리 이론 : 모나드 조합과 고차 타입의 이론적 배경</p>
+</blockquote>
+<h2 id="제네릭-함수"><a href="#제네릭-함수" class="headerlink" title="제네릭 함수"></a>제네릭 함수</h2><p><a href="">T</a> 로 표기를 할때가 종종 있는데 <a href="">제네릭 타입</a>이라고 합니다.<br>제네릭 타입을 적용하면 어떤 타입에도 대응이 가능합니다.<br>ts에서 제네릭 타입은 <a href="">함수, 인터페이스, 클래스, 타입 별칭</a>에 적용이 가능합니다.</p>
+<p><strong>함수, 화살표 함수</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">g1</span>&lt;<span class="title">T</span>&gt;(<span class="params">a: T</span>): <span class="title">void</span> </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">g2</span>&lt;<span class="title">T</span>, <span class="title">Q</span>&gt;(<span class="params">a: T, b: Q</span>): <span class="title">void</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> g3&lt;T&gt;(a: T): <span class="function"><span class="params">void</span> =&gt;</span> &#123;&#125;</span><br><span class="line"><span class="keyword">const</span> g4&lt;T, Q&gt;(a: T, <span class="attr">b</span>: Q): <span class="function"><span class="params">void</span> =&gt;</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>타입 별칭</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Type1Func&lt;T&gt; = <span class="function">(<span class="params">T</span>) =&gt;</span> <span class="built_in">void</span></span><br><span class="line"><span class="keyword">type</span> Type2Func&lt;T, Q&gt; = <span class="function">(<span class="params">T, Q</span>) =&gt;</span> <span class="built_in">void</span></span><br><span class="line"><span class="keyword">type</span> Type3Func&lt;T, Q, R&gt; = <span class="function">(<span class="params">T, Q</span>) =&gt;</span> R</span><br></pre></td></tr></table></figure>
+<p><a href="">Type3Func</a> 함수의 시그니처는 T, Q의 타입 값을 입력받아 R타입으르 반환합니다.</p>
+<h1 id="고차함수-커리"><a href="#고차함수-커리" class="headerlink" title="고차함수, 커리"></a>고차함수, 커리</h1><p>어떤 함수가 또 다른 함수를 반환할 때 그 함수를 <a href="">고차함수</a>라고 합니다.</p>
+<p><strong>함수 시그니처를 이용하여 만든 고차함수 예시</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> FirstOrderFunc&lt;T, R&gt; = <span class="function">(<span class="params">T</span>) =&gt;</span> R</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> SecondOrderFunc&lt;T, R&gt; = <span class="function">(<span class="params">T</span>) =&gt;</span> FirstOrderFunc&lt;T, R&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> ThirdOrderFunc&lt;T, R&gt; = <span class="function">(<span class="params">T</span>) =&gt;</span> SecondOrderFunc&lt;T, R&gt;</span><br><span class="line"></span><br><span class="line">------------------------------------------</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> F <span class="keyword">from</span> <span class="string">&#x27;./function-signature&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> inc: F.FirstOrderFunc&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt; = (x: <span class="built_in">number</span>): <span class="function"><span class="params">number</span> =&gt;</span> x + <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> add: F.SecondOrderFunc&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt; =</span><br><span class="line">    (x: <span class="built_in">number</span>): F.FirstOrderFunc&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt; =&gt;</span><br><span class="line">        (y: <span class="built_in">number</span>): <span class="function"><span class="params">number</span> =&gt;</span> x + y</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> add3: F.ThirdOrderFunc&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt; =</span><br><span class="line">    (x: <span class="built_in">number</span>): F.SecondOrderFunc&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt; =&gt;</span><br><span class="line">        (y: <span class="built_in">number</span>): F.FirstOrderFunc&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt; =&gt;</span><br><span class="line">            (z: <span class="built_in">number</span>): <span class="function"><span class="params">number</span> =&gt;</span> x + y + z</span><br><span class="line"></span><br><span class="line">------------------------------------------</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> F <span class="keyword">from</span> <span class="string">&#x27;./order-func&#x27;</span></span><br><span class="line"><span class="comment">//1차 함수</span></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    F.inc(<span class="number">1</span>)  <span class="comment">// 2</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">//2차 고차 함수</span></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    F.add(<span class="number">1</span>)(<span class="number">2</span>)  <span class="comment">// 3</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">//3차 고차 함수</span></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    F.add3(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>)  <span class="comment">// 6</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>F.add3(1)(2)(3) 처럼 호출 연산자를 연속해서 사용하는 것으르 커리(curry)라고 합니다.</p>
+</blockquote>
+<h2 id="부분-적용-함수와-커리"><a href="#부분-적용-함수와-커리" class="headerlink" title="부분 적용 함수와 커리"></a>부분 적용 함수와 커리</h2><p>자신의 차수보다 함수 호출연산자를 덜 사용할면 <a href="">부분 함수</a>라고 합니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;FirstOrderFunc&#125; <span class="keyword">from</span> <span class="string">&#x27;./function-signature&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;add&#125; <span class="keyword">from</span> <span class="string">&#x27;./second-order-func&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// add1은 부분함수</span></span><br><span class="line"><span class="keyword">const</span> add1: FirstOrderFunc&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt; = add(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    add1(<span class="number">2</span>),</span><br><span class="line">    add(<span class="number">1</span>)(<span class="number">2</span>)</span><br><span class="line">)</span><br><span class="line"><span class="comment">// 3 3</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;FirstOrderFunc, SecondOrderFunc&#125; <span class="keyword">from</span> <span class="string">&#x27;./function-signature&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;add3&#125; <span class="keyword">from</span> <span class="string">&#x27;./third-order-func&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// add2, add1은 부분함수</span></span><br><span class="line"><span class="keyword">const</span> add2: SecondOrderFunc&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt; = add3(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">const</span> add1: FirstOrderFunc&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt; = add2(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    add1(<span class="number">3</span>),</span><br><span class="line">    add2(<span class="number">2</span>)(<span class="number">3</span>),</span><br><span class="line">    add3(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>)</span><br><span class="line">)</span><br><span class="line"><span class="comment">// 6 6 6</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="클로저"><a href="#클로저" class="headerlink" title="클로저"></a>클로저</h2><p>고차함수의 몸통에서 선언되는 변수들은 <a href="">클로저(closure)</a>라는 유효 범위를 가집니다.<br>클로저는 <a href="">지속되는 유효 범위</a>라는 의미 입니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x: <span class="built_in">number</span></span>): (<span class="params">(y: <span class="built_in">number</span>) =&gt; <span class="built_in">number</span></span>) </span>&#123;   <span class="comment">// 바깥쪽 유효 범위 시작</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">y: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;             <span class="comment">// 안쪽 유효 범위 시작</span></span><br><span class="line">        <span class="keyword">return</span> x + y                                 <span class="comment">// 클로저</span></span><br><span class="line">    &#125;                                                <span class="comment">// 안쪽 유효 범위 끝</span></span><br><span class="line">&#125;                                                    <span class="comment">// 바깥쪽 유효 범위 끝</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>고차 함수는 부분 함수가 아닌 ‘값’을 발생해야 비로소 자유 변수(x)의 메모리가 해제되는 유효 범위를 클로저라고 합니다.<br>고차 함수에서 클로저 기능은 필수입니다.</p>
+</blockquote>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> makeNames = (): <span class="function">(<span class="params">() =&gt; <span class="built_in">string</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> names = [<span class="string">&#x27;jack&#x27;</span>,<span class="string">&#x27;jane&#x27;</span>,<span class="string">&#x27;leo&#x27;</span>]</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> (): <span class="function"><span class="params">string</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(index == names.length) &#123;</span><br><span class="line">            index = <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> names[index++]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> makeName: (<span class="function">() =&gt;</span> <span class="built_in">string</span>) = makeNames()</span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>].map(<span class="function"><span class="params">n</span> =&gt;</span> makeName())</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><a href="">names, index</a>는 자유변수 입니다. index는 makename함수를 사용하는 한 makeNames 함수에 할당된 클로저는 해제되지 않습니다.</p>
+<h1 id="함수-조합"><a href="#함수-조합" class="headerlink" title="함수 조합"></a>함수 조합</h1><p><a href="">함수 조합</a>은 작은 기능을 구현한 함수를 여러 번 조합해 더 의미 있는 함수를 만들어 내는 프로그램 설계 기법 입니다.</p>
+<h2 id="compose-함수"><a href="#compose-함수" class="headerlink" title="compose 함수"></a>compose 함수</h2><p>compose함수는 가변 인수로 함수들의 배열을 입력 받습니다.<br>다음 함수들을 조합해 매개변수 x를 입력받는 1차 함수를 반환합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> compose = <span class="xml">&lt;T, R&gt;(...functions: readonly Function[]): Function =&gt;</span></span><br><span class="line"><span class="xml">    (x: T) =&gt; &#123;</span></span><br><span class="line"><span class="xml">        const deepCopiedFunctions = [...functions]</span></span><br><span class="line"><span class="xml">        return deepCopiedFunctions.reverse().reduce((value, func) =&gt; func(value), x)</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">-----------------------------------------------</span></span><br><span class="line">export const f = &lt;T&gt;(x: T): string =&gt; `f($&#123;x&#125;)`</span><br><span class="line">export const g = &lt;T&gt;(x: T): string =&gt; `g($&#123;x&#125;)`</span><br><span class="line">export const h = &lt;T&gt;(x: T): string =&gt; `h($&#123;x&#125;)`</span><br><span class="line"></span><br><span class="line">-----------------------------------------------</span><br><span class="line">import &#123;compose&#125; from &#x27;./compose&#x27;</span><br><span class="line">import &#123;h,g,f&#125; from &#x27;./f-g-h</span><br><span class="line"></span><br><span class="line">const composedFGH = compose(h, g, f)</span><br><span class="line">console.log(</span><br><span class="line">    composedFGH(&#x27;x&#x27;)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;compose&#125; <span class="keyword">from</span> <span class="string">&#x27;./compose&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> inc = <span class="function">(<span class="params">x: <span class="built_in">number</span></span>) =&gt;</span> x + <span class="number">1</span></span><br><span class="line"><span class="keyword">const</span> composed = compose(inc, inc, inc)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    composed(<span class="number">1</span>)</span><br><span class="line">)</span><br><span class="line"><span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="pipe-함수"><a href="#pipe-함수" class="headerlink" title="pipe 함수"></a>pipe 함수</h2><p>pipe함수는 compose와 매개변수를 해석하는 순서가 정반대입니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> pipe = <span class="xml">&lt;T, R&gt;(...functions: readonly Function[]): Function =&gt;</span></span><br><span class="line"><span class="xml">    (x: T) =&gt; &#123;</span></span><br><span class="line"><span class="xml">        return functions.reduce((value, func) =&gt; func(value), x)</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">-----------------------------------------------</span></span><br><span class="line"><span class="xml">import &#123; f, g, h &#125; from &#x27;./f-g-h&#x27;</span></span><br><span class="line"><span class="xml">import &#123; pipe &#125; from &#x27;./pipe&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">const piped = pipe(f, g, h)</span></span><br><span class="line"><span class="xml">console.log(</span></span><br><span class="line"><span class="xml">    piped(&#x27;x&#x27;)</span></span><br><span class="line"><span class="xml">)</span></span><br><span class="line"><span class="xml">// h(g(f(x)))</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="부분함수와-함수-조합"><a href="#부분함수와-함수-조합" class="headerlink" title="부분함수와 함수 조합"></a>부분함수와 함수 조합</h2><p>고차함수의 부분함수는 함수 조합에 사용될 수 있습니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; pipe &#125; <span class="keyword">from</span> <span class="string">&#x27;./pipe&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> add = <span class="function">(<span class="params">x:<span class="built_in">number</span></span>) =&gt;</span> <span class="function">(<span class="params">y:<span class="built_in">number</span></span>) =&gt;</span> x + y</span><br><span class="line"><span class="keyword">const</span> inc = add(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> add3 = pipe(</span><br><span class="line">    inc,    <span class="comment">// = add(1)</span></span><br><span class="line">    add(<span class="number">2</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    add3(<span class="number">1</span>) <span class="comment">// 1 + 1 + 2</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="포인트가-없는-함수"><a href="#포인트가-없는-함수" class="headerlink" title="포인트가 없는 함수"></a>포인트가 없는 함수</h2><p>함수 조합을 고려해 설계한 함수를 <a href="">포인트가 없는 함수</a>라고 합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 포인트가 없는 함수</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> map = <span class="function"><span class="params">f</span> =&gt;</span> <span class="function"><span class="params">a</span> =&gt;</span> a.map(f)</span><br><span class="line"></span><br><span class="line">-----------------------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;map&#125; <span class="keyword">from</span> <span class="string">&#x27;./map&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> square = <span class="function">(<span class="params">value:<span class="built_in">any</span></span>) =&gt;</span> value * value</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> squaredMap = map(square)</span><br><span class="line"></span><br><span class="line">-----------------------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123; pipe &#125; <span class="keyword">from</span> <span class="string">&#x27;./pipe&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; squaredMap &#125; <span class="keyword">from</span> <span class="string">&#x27;./squaredMap&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fourSquare = pipe(</span><br><span class="line">    squaredMap,</span><br><span class="line">    squaredMap</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    fourSquare([<span class="number">3</span>, <span class="number">4</span>])  <span class="comment">// [(3*3)*(3*3), (4*4)*(4*4)]</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// [ 81, 256 ]</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;reduce&#125; <span class="keyword">from</span> <span class="string">&#x27;./reduce&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sum = <span class="function">(<span class="params">result: <span class="built_in">any</span>, value: <span class="built_in">any</span></span>) =&gt;</span> result + value</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> sumArray = reduce(sum, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">-----------------------------------------------</span><br><span class="line"><span class="keyword">import</span> &#123;pipe&#125; <span class="keyword">from</span> <span class="string">&#x27;./pipe&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;squaredMap&#125; <span class="keyword">from</span> <span class="string">&#x27;./squaredMap&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;sumArray&#125; <span class="keyword">from</span> <span class="string">&#x27;./sumArray&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pitagoras = pipe(</span><br><span class="line">    squaredMap,</span><br><span class="line">    sumArray,</span><br><span class="line">    <span class="built_in">Math</span>.sqrt</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    pitagoras([<span class="number">3</span>,<span class="number">4</span>])    </span><br><span class="line">    <span class="comment">// squaredMap =&gt; [(3*3), (4*4)]</span></span><br><span class="line">    <span class="comment">// sumArray =&gt; reduce =&gt; init = 0, 9 + 16</span></span><br><span class="line">    <span class="comment">// Math.sqrt =&gt; 25 =&gt; 5</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Leo</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>You just have to get started.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/javascript/"># javascript</a>
+                    
+                        <a href="/tags/typescript/"># typescript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://leodevblog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Leo | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
