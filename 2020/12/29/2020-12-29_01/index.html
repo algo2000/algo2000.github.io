@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko,default">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Leo">
+
+
+    <meta name="subtitle" content="매일, Everyday, 毎日">
+
+
+
+
+<title>07) typescript 람다 라이브러리 | Leo&#39;s Dev Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Leo&#39;s Dev Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Leo&#39;s Dev Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">07) typescript 람다 라이브러리</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Leo</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">12월 29, 2020&nbsp;&nbsp;20:50:59</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/">개발 일지</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/">typescript</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="람다-라이브러리"><a href="#람다-라이브러리" class="headerlink" title="람다 라이브러리"></a>람다 라이브러리</h1><p>ramda 패키지는 앞선 장에서 본 compose와 pipe를 사용하는 함수 조합을 쉽게 사용하게 해줍니다.</p>
+<h1 id="람다-사용법"><a href="#람다-사용법" class="headerlink" title="람다 사용법"></a>람다 사용법</h1><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="R-range-함수"><a href="#R-range-함수" class="headerlink" title="R.range 함수"></a>R.range 함수</h2><p><a href="">[최솟값, 최솟값 + 1, …, 최대값 -1]</a> 형태의 배열을 생성해 줍니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    R.range(<span class="number">1</span>, <span class="number">9</span> + <span class="number">1</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// [</span></span><br><span class="line"><span class="comment">//     1, 2, 3, 4, 5,</span></span><br><span class="line"><span class="comment">//     6, 7, 8, 9</span></span><br><span class="line"><span class="comment">//   ]</span></span><br></pre></td></tr></table></figure>
+<h2 id="R-tap-디버깅용-함수"><a href="#R-tap-디버깅용-함수" class="headerlink" title="R.tap 디버깅용 함수"></a>R.tap 디버깅용 함수</h2><p>2차 고차함수 형태로 현재 값을 파악할 수 있게 해줍니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R.tap([콜백함수])([배열])</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> numbers: <span class="built_in">number</span>[] = R.range(<span class="number">1</span>, <span class="number">9</span> + <span class="number">1</span>)</span><br><span class="line">R.tap(<span class="function"><span class="params">n</span> =&gt;</span> <span class="built_in">console</span>.log(n))(numbers)</span><br><span class="line"><span class="comment">// [</span></span><br><span class="line"><span class="comment">//     1, 2, 3, 4, 5,</span></span><br><span class="line"><span class="comment">//     6, 7, 8, 9</span></span><br><span class="line"><span class="comment">//   ]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="R-pipe-함수"><a href="#R-pipe-함수" class="headerlink" title="R.pipe 함수"></a>R.pipe 함수</h2><p>앞서 구현한 pipe함수를 제공합니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> array: <span class="built_in">number</span>[] = R.range(<span class="number">1</span>, <span class="number">9</span> + <span class="number">1</span>)</span><br><span class="line">R.pipe(</span><br><span class="line">    R.tap(<span class="function"><span class="params">n</span> =&gt;</span> <span class="built_in">console</span>.log(n))</span><br><span class="line">)(array)</span><br><span class="line"></span><br><span class="line"><span class="comment">// [</span></span><br><span class="line"><span class="comment">//     1, 2, 3, 4, 5,</span></span><br><span class="line"><span class="comment">//     6, 7, 8, 9</span></span><br><span class="line"><span class="comment">// ]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="포인트가-없는-함수"><a href="#포인트가-없는-함수" class="headerlink" title="포인트가 없는 함수"></a>포인트가 없는 함수</h2><p>앞서 언급했듯이 <a href="">포인트가 없는 함수</a>는 함수 조합을 고려한 설계를 뜻합니다.<br>람다에서 제공하는 대부분의 함수는 2차 고차 함수 형태로 구현되어있습니다.<br>2차 고차 함수는 포인트가 없는 함수 형태로 사용이 가능합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> dump = R.pipe(</span><br><span class="line">    R.tap(<span class="function"><span class="params">n</span> =&gt;</span> <span class="built_in">console</span>.log(n))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">------------------------------</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; dump &#125; <span class="keyword">from</span> <span class="string">&#x27;./dump/dump&#x27;</span></span><br><span class="line"></span><br><span class="line">dump(R.range(<span class="number">1</span>, <span class="number">9</span> + <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// [</span></span><br><span class="line"><span class="comment">//     1, 2, 3, 4, 5,</span></span><br><span class="line"><span class="comment">//     6, 7, 8, 9</span></span><br><span class="line"><span class="comment">//   ]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="자동-커리의-이해"><a href="#자동-커리의-이해" class="headerlink" title="자동 커리의 이해"></a>자동 커리의 이해</h2><p>F.add3(1)(2)(3) 처럼 호출 연산자를 연속해서 사용하는 것으르 <a href="">커리</a>라고 합니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    <span class="comment">//자동커리</span></span><br><span class="line">    R.add(<span class="number">1</span>, <span class="number">2</span>),</span><br><span class="line">    <span class="comment">//커리</span></span><br><span class="line">    R.add(<span class="number">1</span>)(<span class="number">2</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3 3</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="R-curryN-함수"><a href="#R-curryN-함수" class="headerlink" title="R.curryN 함수"></a>R.curryN 함수</h2><p>람다 라이브러리의 함수들은 자동 커리 방식으로 동작할 수 있도록 매개변수의 개수가 모두 정해져 있습니다.<br>그래서 가변 인수 형태로 구현된 함수는 존재하지 않습니다.<br><a href="">R.curryN</a> 함수는 N개의 매개변수를 가진 1차 함수를 N개의 커리 매개변수를 가지는 N차 고차함수로 만듭니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R.curryN(N, 함수)</span><br></pre></td></tr></table></figure>
+
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> sum = (...numbers: <span class="built_in">number</span>[]): <span class="function"><span class="params">number</span> =&gt;</span> </span><br><span class="line">    numbers.reduce(<span class="function">(<span class="params">result:<span class="built_in">number</span>, sum: <span class="built_in">number</span></span>) =&gt;</span> result + sum, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">-----------------------------</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;sum&#125; <span class="keyword">from</span> <span class="string">&#x27;./sum&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> curriedSum = R.curryN(<span class="number">4</span>, sum)</span><br><span class="line"></span><br><span class="line">-----------------------------</span><br><span class="line"><span class="keyword">import</span> &#123; curriedSum &#125; <span class="keyword">from</span> <span class="string">&#x27;./curryN/curriedSum&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    curriedSum(),</span><br><span class="line">    curriedSum(<span class="number">1</span>),</span><br><span class="line">    curriedSum(<span class="number">1</span>)(<span class="number">2</span>),</span><br><span class="line">    curriedSum(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>),</span><br><span class="line">    curriedSum(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>)(<span class="number">4</span>),</span><br><span class="line">    <span class="comment">// 자동커리</span></span><br><span class="line">    curriedSum(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">)</span><br><span class="line"><span class="comment">// [Function (anonymous)] </span></span><br><span class="line"><span class="comment">// [Function (anonymous)] </span></span><br><span class="line"><span class="comment">// [Function (anonymous)] </span></span><br><span class="line"><span class="comment">// [Function (anonymous)] </span></span><br><span class="line"><span class="comment">// 10 </span></span><br><span class="line"><span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="순수-함수"><a href="#순수-함수" class="headerlink" title="순수 함수"></a>순수 함수</h2><p>람다 라이브러리의 모든 함수는 순수 함수 형태로 동작합니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> originalArray: <span class="built_in">number</span>[] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> resultArray = R.pipe(</span><br><span class="line">    R.map(R.add(<span class="number">1</span>))</span><br><span class="line">)(originalArray)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(originalArray, resultArray)</span><br><span class="line"></span><br><span class="line"><span class="comment">// [ 1, 2, 3 ] </span></span><br><span class="line"><span class="comment">// [ 2, 3, 4 ]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="배열에-담긴-수-다루기"><a href="#배열에-담긴-수-다루기" class="headerlink" title="배열에 담긴 수 다루기"></a>배열에 담긴 수 다루기</h1><p>함수형 프로그래밍은 보통 선언형 프로그래밍 방식으로 작성합니다.<br>선언형 프로그래밍은 주로 단순 데이터보다 배열 형태를 입력형태로 사용합니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> value = <span class="number">1</span></span><br><span class="line"><span class="keyword">const</span> newValue = R.inc(value)   <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newArray = R.pipe(</span><br><span class="line">    R.map(R.inc)</span><br><span class="line">)([value])  <span class="comment">// [2]</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>ex) R.tap을 이용한 전 후 배열 비교</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> R <span class="keyword">from</span> <span class="string">&#x27;ramda&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> numbers: <span class="built_in">number</span>[] = R.range(<span class="number">1</span>, <span class="number">9</span> + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> incNumber = R.pipe(</span><br><span class="line">    R.tap(<span class="function">(<span class="params">a:<span class="built_in">number</span>[]</span>) =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;before inc: &#x27;</span>, a)),</span><br><span class="line">    R.map(R.inc),</span><br><span class="line">    R.tap(<span class="function">(<span class="params">a:<span class="built_in">number</span>[]</span>) =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;after inc: &#x27;</span>, a))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newNumbers = incNumber(numbers)</span><br><span class="line"><span class="built_in">console</span>.log(newNumbers)</span><br><span class="line"></span><br><span class="line"><span class="comment">// before inc:  [</span></span><br><span class="line"><span class="comment">//     1, 2, 3, 4, 5,</span></span><br><span class="line"><span class="comment">//     6, 7, 8, 9</span></span><br><span class="line"><span class="comment">//   ]</span></span><br><span class="line"><span class="comment">//   after inc:  [</span></span><br><span class="line"><span class="comment">//     2, 3, 4,  5, 6,</span></span><br><span class="line"><span class="comment">//     7, 8, 9, 10</span></span><br><span class="line"><span class="comment">//   ]</span></span><br><span class="line"><span class="comment">//   [</span></span><br><span class="line"><span class="comment">//     2, 3, 4,  5, 6,</span></span><br><span class="line"><span class="comment">//     7, 8, 9, 10</span></span><br><span class="line"><span class="comment">//   ]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="사칙-연산-함수"><a href="#사칙-연산-함수" class="headerlink" title="사칙 연산 함수"></a>사칙 연산 함수</h2><p>람다는 여러 사칙 연산 함수를 제공합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R.add(a: <span class="built_in">number</span>)(b: <span class="built_in">number</span>)         <span class="comment">// a + b</span></span><br><span class="line">R.subtract(a: <span class="built_in">number</span>)(b: <span class="built_in">number</span>)    <span class="comment">// a - b</span></span><br><span class="line">R.multiply(a: <span class="built_in">number</span>)(b: <span class="built_in">number</span>)    <span class="comment">// a * b</span></span><br><span class="line">R.divide(a: <span class="built_in">number</span>)(b: <span class="built_in">number</span>)      <span class="comment">// a / b</span></span><br></pre></td></tr></table></figure>
+
+<p><a href="">R.inc</a>는 <a href="">R.Add</a>를 포인트가 있는 함수 형태로 사용하는 것입니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> inc = (b: <span class="built_in">number</span>): <span class="function"><span class="params">number</span> =&gt;</span> R.add(<span class="number">1</span>)(b)</span><br></pre></td></tr></table></figure>
+
+<h1 id="서술자와-조건-연산"><a href="#서술자와-조건-연산" class="headerlink" title="서술자와 조건 연산"></a>서술자와 조건 연산</h1><h1 id="문자열-다루기"><a href="#문자열-다루기" class="headerlink" title="문자열 다루기"></a>문자열 다루기</h1><h1 id="chance-패키지로-객체-만들기"><a href="#chance-패키지로-객체-만들기" class="headerlink" title="chance 패키지로 객체 만들기"></a>chance 패키지로 객체 만들기</h1><h1 id="렌즈를-활용한-객체의-속성-다루기"><a href="#렌즈를-활용한-객체의-속성-다루기" class="headerlink" title="렌즈를 활용한 객체의 속성 다루기"></a>렌즈를 활용한 객체의 속성 다루기</h1><h1 id="객체-다루기"><a href="#객체-다루기" class="headerlink" title="객체 다루기"></a>객체 다루기</h1><h1 id="배열-다루기"><a href="#배열-다루기" class="headerlink" title="배열 다루기"></a>배열 다루기</h1><h1 id="조합-논리-이해"><a href="#조합-논리-이해" class="headerlink" title="조합 논리 이해"></a>조합 논리 이해</h1>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Leo</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>You just have to get started.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/javascript/"># javascript</a>
+                    
+                        <a href="/tags/typescript/"># typescript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://leodevblog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Leo | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
