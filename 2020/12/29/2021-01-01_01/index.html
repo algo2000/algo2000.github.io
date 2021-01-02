@@ -256,6 +256,40 @@
 <p>print</p>
 </blockquote>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2021</span>-<span class="number">01</span>-01T15:<span class="number">00</span>:<span class="number">15.</span>528Z</span><br><span class="line">Point &#123; <span class="attr">x</span>: <span class="number">0</span>, <span class="attr">y</span>: <span class="number">0</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="인덱스-타입-제약"><a href="#인덱스-타입-제약" class="headerlink" title="인덱스 타입 제약"></a>인덱스 타입 제약</h2><p>객체의 일정 속성들만 추려서 좀 더 단순한 객체를 만듭니다.</p>
+<blockquote>
+<p>./pick/pick</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> pick = <span class="function">(<span class="params">obj: &#123; [x: <span class="built_in">string</span>]: <span class="built_in">any</span>; &#125;, keys: <span class="built_in">any</span>[]</span>) =&gt;</span> keys.map(<span class="function">(<span class="params">key: <span class="built_in">string</span> | <span class="built_in">number</span></span>) =&gt;</span> (&#123; [key]: obj[key] &#125;))</span><br><span class="line">    .reduce(<span class="function">(<span class="params">result: <span class="built_in">any</span>, value: <span class="built_in">any</span></span>) =&gt;</span> (&#123; ...result, ...value &#125;), &#123;&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>./index</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;pick&#125; <span class="keyword">from</span> <span class="string">&#x27;./pick/pick&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;<span class="attr">name</span>: <span class="string">&#x27;Jane&#x27;</span>, <span class="attr">age</span>: <span class="number">22</span>, <span class="attr">city</span>: <span class="string">&#x27;Seoul&#x27;</span>, <span class="attr">country</span>: <span class="string">&#x27;Korea&#x27;</span>&#125;</span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">    pick(obj,[<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;age&#x27;</span>]),</span><br><span class="line">    pick(obj,[<span class="string">&#x27;nam&#x27;</span>,<span class="string">&#x27;ag&#x27;</span>])</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>print</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="attr">name</span>: <span class="string">&#x27;Jane&#x27;</span>, <span class="attr">age</span>: <span class="number">22</span> &#125; &#123; <span class="attr">nam</span>: <span class="literal">undefined</span>, <span class="attr">ag</span>: <span class="literal">undefined</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="대수-데이터-타입"><a href="#대수-데이터-타입" class="headerlink" title="대수 데이터 타입"></a>대수 데이터 타입</h1><p>ts에서 대수 데이터 타입은 <a href="">합집합 타입</a>과 <a href="">교집합 타입</a> 두가지가 있습니다.</p>
+<h2 id="합집합-타입"><a href="#합집합-타입" class="headerlink" title="합집합 타입"></a>합집합 타입</h2><p><a href="">합집합 타입</a>은 <a href="">|</a> 기호를 연결하여 만든 타입을 말합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> NumberOrString = <span class="built_in">number</span> | <span class="built_in">string</span></span><br><span class="line"><span class="keyword">let</span> ns: NumberOrString = <span class="number">1</span></span><br><span class="line">ns = <span class="string">&#x27;hello&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="교집합-타입"><a href="#교집합-타입" class="headerlink" title="교집합 타입"></a>교집합 타입</h2><p><a href="">교집합 타입</a>은 <a href="">&amp;</a> 기호를 연결하여 만든 타입을 말합니다.</p>
+<blockquote>
+<p>./mergeObjects/mergeObjects</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> mergeObjects = <span class="xml">&lt;T, U&gt;(a: T, b: U): T &amp; U =&gt; (&#123; ...a, ...b &#125;)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>./index.ts</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; mergeObjects &#125; <span class="keyword">from</span> <span class="string">&#x27;./mergeObjects/mergeObjects&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> INameable = &#123; <span class="attr">name</span>: <span class="built_in">string</span> &#125;</span><br><span class="line"><span class="keyword">type</span> IAgeable = &#123; <span class="attr">age</span>: <span class="built_in">number</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> nameAndAge: INameable &amp; IAgeable = mergeObjects(&#123; <span class="attr">name</span>: <span class="string">&#x27;Jack&#x27;</span> &#125;, &#123; <span class="attr">age</span>: <span class="number">32</span> &#125;)</span><br><span class="line"><span class="built_in">console</span>.log(nameAndAge)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>print</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="attr">name</span>: <span class="string">&#x27;Jack&#x27;</span>, <span class="attr">age</span>: <span class="number">32</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>mergeObjects에서 반환되는 값이 넣어준 값의 타입의 교집합임을 알 수 있습니다.</p>
+<h2 id="합집합-타입-구분하기"><a href="#합집합-타입-구분하기" class="headerlink" title="합집합 타입 구분하기"></a>합집합 타입 구분하기</h2>
         </div>
 
         
