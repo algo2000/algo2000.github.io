@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko,default">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Leo">
+
+
+    <meta name="subtitle" content="매일, Everyday, 毎日">
+
+
+
+
+<title>04) React, Typescript Hooks) UseEffect | Leo&#39;s Dev Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Leo&#39;s Dev Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Leo&#39;s Dev Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">04) React, Typescript Hooks) UseEffect</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Leo</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">1월 20, 2021&nbsp;&nbsp;21:54:42</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/">개발 일지</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/">typescript</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/react/">react</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="UseEffect"><a href="#UseEffect" class="headerlink" title="UseEffect"></a>UseEffect</h1><h2 id="설명"><a href="#설명" class="headerlink" title="설명"></a>설명</h2><p><a href="">UseEffect</a>는 리액트의 컴포넌트가 렌더링 될때마다 특정 작업을 실행시키는 Hook입니다.<br>UseEffect로는 생명주기(Life Cycle)를 관리할 수 있습니다.<br><a href="">생명주기</a>란 프로그램이 실행(Mount)되고 종료(Unmount)되는 한개의 사이클을 의미합니다. </p>
+<h2 id="기본-형태"><a href="#기본-형태" class="headerlink" title="기본 형태"></a>기본 형태</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useEffect([함수], [배열])</span><br></pre></td></tr></table></figure>
+<p>파라미터중 함수는 컴포넌트가 랜더링(or 리랜더링)될때 실행시켜줄 함수입니다.<br>배열은 배열에 넣은 State나 Prop에 변화가 있을 때 컴포넌트를 리랜더링 되게 해줍니다.<br>즉, 배열에 들어있는 State, Prop의 변화에만 리랜더링 됩니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useEffect([함수])</span><br></pre></td></tr></table></figure>
+<p>배열이 빠진 형태의 useEffect입니다.<br>해당 함수의 경우 모든 상태의 변경에 대하여 리랜더링됩니다.</p>
+<p><strong>ex</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>)</span><br><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Render!!&quot;</span>)</span><br><span class="line">&#125;, [count])</span><br></pre></td></tr></table></figure>
+<p>count라는 이름의 상태를 0으로 초기화 합니다.<br>useEffect에 의해 count의 상태가 변경될때마다 Render!! 가 출력됩니다.</p>
+<h2 id="Life-Cycle"><a href="#Life-Cycle" class="headerlink" title="Life Cycle"></a>Life Cycle</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Render!!&quot;</span>)</span><br><span class="line">&#125;, [])</span><br></pre></td></tr></table></figure>
+<p><strong>컴포넌트가 마운트 될때만 (시점 : 처음 나타날때)</strong><br>배열부분을 비워두면 컴포넌트가 마운트 되는 시점 단 한번만 실행되게 된다.<br>배열부분을 생략한다면 모든 상태 변화에 리랜더링 된다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Render!!&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>모든 상태 변화에 랜더링</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Render!!&quot;</span>)</span><br><span class="line">&#125;, [count])</span><br></pre></td></tr></table></figure>
+<p><strong>컴포넌트가 Update 될때 (시점 : 틀정 State,Props가 변경될때)</strong><br>count라는 값의 변화에만 랜더링됩니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;Cleanup!!&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, [])</span><br></pre></td></tr></table></figure>
+<p><strong>컴포넌트가 언마운트되거나 Update되기 직전에 (시점 : 사라질때)</strong><br>return 뒤에 오는 함수는 Cleanup 함수라고 합니다.<br>언마운트가 될때 실행됩니다.<br>특정 값이 업데이트 되기 직전에 실행시키고 싶을때는 useEffect의 배열에 특정값을 넣습니다.</p>
+<h2 id="예제-작성"><a href="#예제-작성" class="headerlink" title="예제 작성"></a>예제 작성</h2><p>number 버튼을 누르면 UseEffect가 랜더링되며<br>aNumber 버튼을 누르면 UseEffect가 랜더링 되지 않습니다.</p>
+<blockquote>
+<p>src에 UseEffect라는 폴더를 만듭니다.</p>
+</blockquote>
+<blockquote>
+<p>src/UseEffect/index.tsx</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useEffect, useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">UseEffectIndex</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> [<span class="built_in">number</span>, setNumber] = useState(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> [aNumber, setAnumber] = useState(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    useEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">number</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">&#x27;Cleanup&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, [<span class="built_in">number</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;h1&gt;<span class="number">3.</span> UseEffect&lt;/h1&gt;</span><br><span class="line">            &lt;button onClick=&#123;(): <span class="function"><span class="params">void</span> =&gt;</span> setNumber(<span class="built_in">number</span> + <span class="number">1</span>)&#125;&gt;UseEffect : &#123;<span class="built_in">number</span>&#125;&lt;/button&gt;</span><br><span class="line">            &lt;button onClick=&#123;(): <span class="function"><span class="params">void</span> =&gt;</span> setAnumber(aNumber + <span class="number">1</span>)&#125;&gt;Non-UseEffect : &#123;aNumber&#125;&lt;/button&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> UseEffectIndex</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>src/App.tsx</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"><span class="keyword">import</span> UseEffectIndex <span class="keyword">from</span> <span class="string">&#x27;./UseEffect&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">&quot;App&quot;</span>&gt;</span><br><span class="line">      &lt;UseEffectIndex /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Leo</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>You just have to get started.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/react/"># react</a>
+                    
+                        <a href="/tags/javascript/"># javascript</a>
+                    
+                        <a href="/tags/typescript/"># typescript</a>
+                    
+                        <a href="/tags/hook/"># hook</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://leodevblog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Leo | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
