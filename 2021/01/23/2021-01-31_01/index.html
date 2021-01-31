@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko,default">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Leo">
+
+
+    <meta name="subtitle" content="매일, Everyday, 毎日">
+
+
+
+
+<title>01) 개인프로젝트) 프로젝트 구상 및 레포지토리 생성 | Leo&#39;s Dev Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Leo&#39;s Dev Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Leo&#39;s Dev Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" target="_blank" rel="noopener" href="https://github.com/algo2000">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">01) 개인프로젝트) 프로젝트 구상 및 레포지토리 생성</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Leo</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">1월 23, 2021&nbsp;&nbsp;23:57:41</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/">개발 일지</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/">typescript</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/nestjs/">nestjs</a>
+                            
+                                <a href="/categories/%EA%B0%9C%EB%B0%9C-%EC%9D%BC%EC%A7%80/typescript/nestjs/project/">project</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Rest-서버-개발"><a href="#Rest-서버-개발" class="headerlink" title="Rest 서버 개발"></a>Rest 서버 개발</h1><h2 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h2><p>Nest를 이용한 REST API를 개발하려고 합니다.<br>DB연동과 보안을 위하여 <a href="">JWT</a>를 사용한 인증 시스템을 사용합니다.<br>추후 Client Side 부분은 React의 Next.js를 사용합니다.<br>포스팅 되는 내용의 대부분은 <a target="_blank" rel="noopener" href="https://docs.nestjs.com/">Nest.js 공식 사이트</a>의 내용을 참고하여 진행됩니다.</p>
+<h2 id="사용-기술"><a href="#사용-기술" class="headerlink" title="사용 기술"></a>사용 기술</h2><ul>
+<li>mysql : DB를 mysql로 선택했습니다. <a target="_blank" rel="noopener" href="https://docs.nestjs.com/recipes/sql-typeorm">TypeORM</a>을 이용하여 사용할 예정입니다.</li>
+<li>nest.js : express를 기반으로 하는 프레임워크입니다.</li>
+<li>typescript : nest.js로 개발하는것에 사용되는 언어입니다.</li>
+<li>JWT : <a href="">Json Web Token</a> 이라고 합니다. 제작한 서버와 Client side와의 통신 과정에서 사용자 인증 보안을 하는것에 사용될 예정입니다.</li>
+</ul>
+<h2 id="개발"><a href="#개발" class="headerlink" title="개발"></a>개발</h2><p>개발하려는 것은 자기 개발을 위하여 자신을 관리하는 사이트 입니다. 깃허브와 같이 contributions를 자신의 메인 페이지에서 보여주며 자신의 자기개발진행도 및 얼마나 꾸준히 이행하고 있는지 확인할 수 있습니다. 여러 그래프를 통해 자신이 지금까지 이행한 것을 확인할 수 있는 대시보드 기능 또한 지원합니다. 대시 보드에서는 앞서 말했던 contributions를 포함하여 그래프, 자기 개발 연혁 등 여러 정보를 보여줍니다. 그리고 꾸준한 활동을 위하여 Todo시스템 또한 지원하여 할일에 대하여 정리가 가능합니다.<br>또 다른 세션으로는 오늘한 자기개발 내용을 기록할 수 있도록 포스팅 할 수 있는 틀을 지원합니다. 해당 내용은 다른 사람들이 볼 수 있습니다. 신박한 댓글 기능을 통해 자신이 정리한 내용에 대한 댓글을 확인할 수 있습니다. 또한 다른 사용자에게 자신이 오늘하루도 제대로 자기개발을 수행했다는 인증을 받을 수 있습니다.<br>해당 인증을 통해 대충 기록하는 것을 방지할 수 있습니다.</p>
+<p>여러 사용자 기록 틀을 지원할 수 있습니다.</p>
+<ul>
+<li>책을 읽은 사람이 기록할 수 있는 독후감 틀</li>
+<li>영어 공부를 했다는 것을 기록하는 시험 틀 및 독해 틀</li>
+<li>개발을 했다는 것을 기록하는 마크다운 기록 틀<br>등등 여러 틀을 제작하여 사용자가 하고싶은 자기 개발을 효율적으로 진행 할 수 있도록 도와줍니다.</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Leo</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>You just have to get started.</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/javascript/"># javascript</a>
+                    
+                        <a href="/tags/typescript/"># typescript</a>
+                    
+                        <a href="/tags/nestjs/"># nestjs</a>
+                    
+                        <a href="/tags/rest-api/"># rest api</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://leodevblog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Leo | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
